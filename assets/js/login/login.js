@@ -1,4 +1,4 @@
-$("#formLogin").on("submit", function (evt) {
-  evt.preventDefault();
+$('#formLogin').submit(function(event) {
+  event.preventDefault();
   console.log("detente");
 });

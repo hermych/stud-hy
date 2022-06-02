@@ -1,11 +1,24 @@
+<?php
+$porciones = explode("?", $_SERVER["REQUEST_URI"]);
+if (count($porciones) > 1) {
+  $porciones2 = explode("=", $porciones[1]);
+  if ($porciones2[1] == 'loginView') {
+    $title = 'Iniciar Sesion';
+  }elseif ($porciones2[1] == 'registroView') {
+    $title = 'Registrarse';
+  }
+} else {
+  $title = 'Inicio';
+}
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
+  <title>Studhy | <?=$title?></title>
   <!-- ############## LINKS DE BOOTSTRAP ############ -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

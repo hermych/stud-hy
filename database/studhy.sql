@@ -5,7 +5,7 @@ USE studhy;
 -- TABLA DEPARTAMENTOS
 CREATE TABLE departamentos(
   id_departamento int(11) auto_increment PRIMARY KEY,
-  nombrePermiso varchar(50) not null
+  nombre varchar(50) not null
 ) ENGINE = InnoDb;
 
 -- TABLA FACULTADES

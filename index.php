@@ -10,6 +10,7 @@
 
 <body>
   <a href="controllers/LoginController.php?method=loginView">Inicia sesion</a>
+  <a href="controllers/LoginController.php?method=registroView">Registrar</a>
 </body>
 
 </html>
