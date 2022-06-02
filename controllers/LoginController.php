@@ -11,17 +11,18 @@ class LoginController
   {
     require_once "../views/login/login.php";
   }
+  public function login()
+  {
+    var_dump($_POST);
+  }
 }
 
 $LoginObj = new LoginController();
 
-if ($_GET['method'] == 'login') {
+if ($_GET['method'] == 'loginView') {
   echo ($LoginObj->index());
-}
-/*
-if (isset($_SESSION['identity'])) {
-  
 } else {
-  header("Location:../views/sinSesion.php");
+  if ($_GET['method'] == 'loginView') {
+    echo ($LoginObj->login());
+  }
 }
-*/

@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  <a href="controllers/LoginController.php?method=login">Inicia sesion</a>
+  <a href="controllers/LoginController.php?method=loginView">Inicia sesion</a>
 </body>
 
 </html>
