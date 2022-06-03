@@ -22,10 +22,18 @@ class LoginController
     $respuesta = [];
     if(isset($_POST)){
       $nombres = isset($_POST['nombres']) ? $_POST['nombres'] : false;
-      $nombres = isset($_POST['nombres']) ? $_POST['nombres'] : false;
-      $nombres = isset($_POST['nombres']) ? $_POST['nombres'] : false;
-      $nombres = isset($_POST['nombres']) ? $_POST['nombres'] : false;
-      $nombres = isset($_POST['nombres']) ? $_POST['nombres'] : false;
+      $apellidos = isset($_POST['apellidos']) ? $_POST['apellidos'] : false;
+      $direccion = isset($_POST['direccion']) ? $_POST['direccion'] : false;
+      $email = isset($_POST['email']) ? $_POST['email'] : false;
+      $celular = isset($_POST['celular']) ? $_POST['celular'] : false;
+      $usuario = isset($_POST['usuario']) ? $_POST['usuario'] : false;
+      $contrasena = isset($_POST['contrasena']) ? $_POST['contrasena'] : false;
+      $contrasena2 = isset($_POST['contrasena2']) ? $_POST['contrasena2'] : false;
+      $departamento = isset($_POST['departamento']) ? $_POST['departamento'] : false;
+      $provincia = isset($_POST['provincia']) ? $_POST['provincia'] : false;
+      $distrito = isset($_POST['distrito']) ? $_POST['distrito'] : false;
+      $egresado = isset($_POST['egresado']) ? $_POST['egresado'] : false;
+      $anio_egreso = isset($_POST['anio_egreso']) ? $_POST['anio_egreso'] : false;
       if($nombres){
         $respuesta = [$respuesta];
       }else{
