@@ -15,26 +15,28 @@ class LoginController
   {
     var_dump($_POST);
   }
-  public function registroView(){
+  public function registroView()
+  {
     require_once "../views/login/registro.php";
   }
-  public function registrarUsuario(){
+  public function registrarUsuario()
+  {
     $respuesta = [];
-    if(isset($_POST)){
+    if (isset($_POST)) {
       $nombres = isset($_POST['nombres']) ? $_POST['nombres'] : false;
       $nombres = isset($_POST['nombres']) ? $_POST['nombres'] : false;
       $nombres = isset($_POST['nombres']) ? $_POST['nombres'] : false;
       $nombres = isset($_POST['nombres']) ? $_POST['nombres'] : false;
       $nombres = isset($_POST['nombres']) ? $_POST['nombres'] : false;
-      if($nombres){
+      if ($nombres) {
         $respuesta = [$respuesta];
-      }else{
+      } else {
         $respuesta = [
           'estado' => 'failed',
           'mensaje' => 'No se estan enviando todos los datos necesarios. Por favor verifique'
         ];
       }
-    }else{
+    } else {
       $respuesta = [
         'estado' => 'failed',
         'mensaje' => 'Error con el servidor, por favor comuniquese con su soporte'
@@ -51,9 +53,9 @@ if ($_GET['method'] == 'loginView') {
 } else {
   if ($_GET['method'] == 'login') {
     echo ($LoginObj->login());
-  }elseif ($_GET['method'] == 'registroView') {
+  } elseif ($_GET['method'] == 'registroView') {
     echo ($LoginObj->registroView());
-  }elseif ($_GET['method'] == 'registrarUsuario'){
+  } elseif ($_GET['method'] == 'registrarUsuario') {
     echo ($LoginObj->registrarUsuario());
   }
 }
