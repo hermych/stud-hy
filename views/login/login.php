@@ -12,4 +12,3 @@
   <button class="btn btn-primary" id="iniciarSesion">Inciar</button>
 </form>
 
-<?php require_once('../views/layout/footer.php'); ?>

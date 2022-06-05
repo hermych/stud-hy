@@ -33,15 +33,21 @@
   <div class="col-6">
     <div class="form-group">
       <label for="departamento">Departamento</label>
-      <input type="text" class="form-control" id="departamento" name="departamento">
+      <select class="form-control" id="departamento" name="departamento">
+        <option value="0">Seleccion departamento</option>
+      </select>
     </div>
     <div class="form-group">
       <label for="provincia">Provincia</label>
-      <input type="text" class="form-control" id="provincia" name="provincia">
+      <select class="form-control" id="provincia" name="provincia">
+        <option value="0">Seleccion provincia</option>
+      </select>
     </div>
     <div class="form-group">
       <label for="distrito">Distrito</label>
-      <input type="text" class="form-control" id="distrito" name="distrito">
+      <select class="form-control" id="distrito" name="distrito">
+        <option value="0">Seleccion Distrito</option>
+      </select>
     </div>
     <div class="form-group">
       <label for="egresado">¿Es egresado?</label>

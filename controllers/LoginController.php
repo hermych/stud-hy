@@ -29,7 +29,10 @@ class LoginController
       $nombres = isset($_POST['nombres']) ? $_POST['nombres'] : false;
       $nombres = isset($_POST['nombres']) ? $_POST['nombres'] : false;
       if ($nombres) {
-        $respuesta = [$respuesta];
+        $respuesta = [
+          'estado' => 'ok',
+          'mensaje' => 'Registro realizado correctamente'
+        ];
       } else {
         $respuesta = [
           'estado' => 'failed',
@@ -39,10 +42,10 @@ class LoginController
     } else {
       $respuesta = [
         'estado' => 'failed',
-        'mensaje' => 'Error con el servidor, por favor comuniquese con su soporte'
+        'mensaje' => 'Error con el servidor'
       ];
     }
-    var_dump($respuesta);
+    return json_encode($respuesta);
   }
 }
 
