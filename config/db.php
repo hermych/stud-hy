@@ -1,7 +1,7 @@
 <?php
 class Database
 {
-  public static function connect($dbname)
+  public static function connect()
   {
     date_default_timezone_set('America/Lima');
     $db = new mysqli('localhost', 'root', '', "studhy");
