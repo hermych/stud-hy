@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-06-2022 a las 02:27:06
+-- Tiempo de generación: 06-06-2022 a las 18:01:11
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 8.0.12
 
@@ -2315,11 +2315,18 @@ CREATE TABLE `universidades` (
   `id_departamento` int(11) NOT NULL,
   `id_provincia` int(11) NOT NULL,
   `id_distrito` int(11) NOT NULL,
-  `id_prospecto` int(11) NOT NULL,
+  `id_prospecto` int(11) DEFAULT NULL,
   `nombre` varchar(50) NOT NULL,
   `descripcion` varchar(255) NOT NULL,
-  `imagen_url` varchar(50) NOT NULL
+  `imagen_url` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `universidades`
+--
+
+INSERT INTO `universidades` (`id_universidad`, `id_departamento`, `id_provincia`, `id_distrito`, `id_prospecto`, `nombre`, `descripcion`, `imagen_url`) VALUES
+(10, 15, 1501, 150142, NULL, 'UNIVERSIDAD NACIONAL TECNOLÓGICA DE LIMA SUR', 'DESDE LA DÉCADA DE LOS 70, EN EL SIGLO XX, CUANDO SURGIÓ VILLA EL SALVADOR, SUS POBLADORES QUE CREARON LA COMUNIDAD AUTOGESTIONARIA DE VILLA EL SALVADOR INCLUYERON EN SU PRIMER PLAN DE DESARROLLO INTEGRAL LA CREACIÓN DE UNA UNIVERSIDAD PÚBLICA, ENTRE LAS ', '5e06d22c88_untels.jpg');
 
 -- --------------------------------------------------------
 
@@ -2582,7 +2589,7 @@ ALTER TABLE `temas`
 -- AUTO_INCREMENT de la tabla `universidades`
 --
 ALTER TABLE `universidades`
-  MODIFY `id_universidad` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_universidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
