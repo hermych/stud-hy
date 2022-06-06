@@ -3,22 +3,22 @@ session_start();
 require_once "../models/universidad.php";
 //require_once "../helpers/utils.php";
 
-class UniversidadController
+class FacultadController
 {
   /**Vistas */
-  public function universidadView()
+  public function facultadView()
   {
     require_once "../views/universidad/index.php";
   }
-  public function univEspecifico($id)
+  public function facuEspecifico($id)
   {
   }
-  public function universidadGView()
+  public function facultadGView()
   {
-    require_once "../views/universidad/index.php";
+    require_once "../views/facultad/index.php";
   }
   /**Metodos */
-  public function universidadGList()
+  public function facultadGList()
   {
     $indice = 1;
     $respuesta = [];
@@ -48,7 +48,7 @@ class UniversidadController
     }
     return json_encode($respuesta);
   }
-  public function universidadGSave()
+  public function facultadGSave()
   {
     $respuesta = [];
     // proceso de guardar imagenes
@@ -109,7 +109,7 @@ class UniversidadController
     }
     return json_encode($respuesta);
   }
-  public function universidadGEdit()
+  public function facultadGEdit()
   {
     $respuesta = [];
     $rename = '';
@@ -173,7 +173,7 @@ class UniversidadController
     }
     return json_encode($respuesta);
   }
-  public function universidadGDelete()
+  public function facultadGDelete()
   {
     // proceso de guardar datos
     if (isset($_POST)) {
@@ -208,25 +208,25 @@ class UniversidadController
   }
 }
 
-$universidad = new UniversidadController();
+$universidad = new FacultadController();
 
 if ($_GET['method'] == 'universidadView') {
   if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    echo ($universidad->univEspecifico($id));
+    echo ($universidad->facuEspecifico($id));
   } else {
-    echo ($universidad->universidadView());
+    echo ($universidad->facultadView());
   }
-} elseif ($_GET['method'] == 'universidadGView') {
-  echo ($universidad->universidadGView());
-} elseif ($_GET['method'] == 'universidadGList') {
-  echo ($universidad->universidadGList());
-} elseif ($_GET['method'] == 'universidadGSave') {
-  echo ($universidad->universidadGSave());
-} elseif ($_GET['method'] == 'universidadGEdit') {
-  echo ($universidad->universidadGEdit());
-} elseif ($_GET['method'] == 'universidadGDelete') {
-  echo ($universidad->universidadGDelete());
+} elseif ($_GET['method'] == 'facultadGView') {
+  echo ($universidad->facultadGView());
+} elseif ($_GET['method'] == 'facultadGList') {
+  echo ($universidad->facultadGList());
+} elseif ($_GET['method'] == 'facultadGSave') {
+  echo ($universidad->facultadGSave());
+} elseif ($_GET['method'] == 'facultadGEdit') {
+  echo ($universidad->facultadGEdit());
+} elseif ($_GET['method'] == 'facultadGDelete') {
+  echo ($universidad->facultadGDelete());
 }
 /* else {
   if ($_GET['method'] == 'login') {

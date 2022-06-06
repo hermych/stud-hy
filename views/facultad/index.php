@@ -3,7 +3,7 @@
 <!-- Button trigger modal -->
 <div class="card">
   <div class="card-header">
-    <h2 class="mt-2">Universidades</h2>
+    <h2 class="mt-2">Facultades</h2>
   </div>
   <div class="card-body">
     <button type="button" id="btnModalRegistrarUniv" class="btn btn-primary float-end mb-4" data-toggle="modal" data-target="#modalRegistrarUniversidad">
