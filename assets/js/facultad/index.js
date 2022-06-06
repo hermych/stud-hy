@@ -383,52 +383,21 @@ function listarDistritosEdit(iddep, idprov, iddist) {
 // ###############################################
 
 // ********** REGISTRAR UNIVERSIDAD **************
-$("#btnModalRegistrarUniv").click(() => {
-  listarDepartamentos();
+$("#modalRegistrarFacultad").click(() => {
   let nombre = document.getElementById("nombre");
-  let departamento = document.getElementById("departamento");
-  let provincia = document.getElementById("provincia");
-  let distrito = document.getElementById("distrito");
-  let imagen = document.getElementById("imagen");
   let descripcion = document.getElementById("descripcion");
   setInterval(() => {
     datosArray = [
       nombre,
-      departamento,
-      provincia,
-      distrito,
       descripcion,
-      imagen,
     ];
     let respuesta = validarDatos(datosArray);
     if (Object.keys(respuesta).length == 0) {
-      $("#btnGuardarUniversidad").prop("disabled", false);
+      $("#btnGuardarFacultad").prop("disabled", false);
     } else {
-      $("#btnGuardarUniversidad").prop("disabled", true);
+      $("#btnGuardarFacultad").prop("disabled", true);
     }
   }, 200);
-});
-$("#departamento").change(function () {
-  if ($("#departamento").val() != 0) {
-    listarProvincias();
-    $("#provincia").prop("disabled", false);
-    $("#distrito").prop("disabled", true);
-    $("#distrito").val("0");
-  } else {
-    $("#provincia").prop("disabled", true);
-    $("#distrito").prop("disabled", true);
-    $("#provincia").val("0");
-    $("#distrito").val("0");
-  }
-});
-$("#provincia").change(function () {
-  if ($("#provincia").val() != 0) {
-    listarDistritos();
-    $("#distrito").prop("disabled", false);
-  } else {
-    $("#distrito").prop("disabled", true);
-    $("#distrito").val("0");
-  }
 });
 //*******************************
 // Abrir modal de editar usuario y validar los campos con datos
@@ -522,7 +491,7 @@ $(document).ready(function () {
     language: español,
   });
   // Proceso de guardar universidad
-  $("#btnGuardarUniversidad").click(function () {
+  $("#btnGuardarFacultad").click(function () {
     formData = new FormData();
     formData.append("nombre", $("#nombre").val().toUpperCase());
     formData.append("iddep", $("#departamento").val());

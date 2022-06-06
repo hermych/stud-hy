@@ -18,8 +18,8 @@
           <th scope="col">Departamento</th>
           <th scope="col">Provincia</th>
           <th scope="col">Distrito</th>
-          <th scope="col">Foto</th </tr>
-          <th scope="col">Opciones</th </tr>
+          <th scope="col">Foto</th>
+          <th scope="col">Opciones</th>
       </thead>
       <tbody id="tbody">
 

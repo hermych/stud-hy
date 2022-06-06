@@ -15,10 +15,10 @@
             $script = '<script src="../assets/js/login/registro.js"></script>';
             echo $script;
         } elseif ($porciones2[1] == 'facultadGView') {
-            $script = '<script src="../assets/js/universidad/index.js"></script>';
+            $script = '<script src="../assets/js/facultad/index.js"></script>';
             echo $script;
         } elseif ($porciones2[1] == 'universidadGView') {
-            $script = '<script src="../assets/js/facultad/index.js"></script>';
+            $script = '<script src="../assets/js/universidad/index.js"></script>';
             echo $script;
         }
     }

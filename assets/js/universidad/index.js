@@ -560,11 +560,13 @@ $(document).ready(function () {
           $("#distrito").val("0");
           $("#imagen").val("");
           $("#descripcion").val("");
-          $("#modalRegistrarUniversidad").modal("hide");
+          $("#modalRegistrarUniversidad").hide();
+          console.log('asdasdadads');
           Swal.fire({
-            text: data.mensaje,
+            text: 'asdasdadads',//data.mensaje,
             icon: "success",
           });
+          
         } else {
           Swal.fire({
             text: data.mensaje,

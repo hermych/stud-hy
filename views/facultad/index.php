@@ -6,20 +6,16 @@
     <h2 class="mt-2">Facultades</h2>
   </div>
   <div class="card-body">
-    <button type="button" id="btnModalRegistrarUniv" class="btn btn-primary float-end mb-4" data-toggle="modal" data-target="#modalRegistrarUniversidad">
+    <button type="button" id="btnModalRegistrarUniv" class="btn btn-primary float-end mb-4" data-toggle="modal" data-target="#modalRegistrarFacultad">
       Registrar
     </button>
     <table id="universidadTable" class="display table table-hover text-center mb-4 table-responsive" style="width: 100%;">
       <thead style="text-align-last: center;">
         <tr>
           <th scope="col">#</th>
-          <th scope="col" style="width: 20%;">Nombre</th>
+          <th scope="col">Nombre</th>
           <th scope="col">Descripcion</th>
-          <th scope="col">Departamento</th>
-          <th scope="col">Provincia</th>
-          <th scope="col">Distrito</th>
-          <th scope="col">Foto</th </tr>
-          <th scope="col">Opciones</th </tr>
+          <th scope="col">Opciones</th>
       </thead>
       <tbody id="tbody">
 
@@ -31,11 +27,11 @@
   </div>
 </div>
 <!-- Modal Agregar Universidad-->
-<div class="modal fade" id="modalRegistrarUniversidad" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modalRegistrarFacultad" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modalRegistrarFacultadLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Registrar Universidad</h5>
+        <h5 class="modal-title" id="modalRegistrarFacultadLabel">Registrar Facultad</h5>
       </div>
       <div class="modal-body">
         <div class="row">
@@ -43,36 +39,6 @@
             <div class="form-group">
               <label for="nombre">Nombre</label>
               <input type="email" class="form-control" id="nombre" name="nombre">
-            </div>
-          </div>
-          <div class="col-6 mb-2">
-            <div class="form-group">
-              <label for="departamento">Departamento</label>
-              <select class="form-control" id="departamento" name="departamento">
-                <option value="0">Seleccione departamento</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-6 mb-2">
-            <div class="form-group">
-              <label for="provincia">Provincia</label>
-              <select class="form-control" id="provincia" name="provincia" disabled>
-                <option value="0">Seleccione provincia</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-6 mb-2">
-            <div class="form-group">
-              <label for="distrito">Distrito</label>
-              <select class="form-control" id="distrito" name="distrito" disabled>
-                <option value="0">Seleccione distrito</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-12 mt-2 mb-2">
-            <div class="form-group">
-              <label for="imagen">Imagen</label>
-              <input type="file" class="form-control-file" id="imagen" value="imagen">
             </div>
           </div>
           <div class="col-12 mb-2">
@@ -84,8 +50,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" id="btnCerrarModalUniv" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-        <button type="button" id="btnGuardarUniversidad" class="btn btn-success" disabled>Guardar</button>
+        <button type="button" id="btnCerrarModalFacu" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+        <button type="button" id="btnGuardarFacultad" class="btn btn-success" disabled>Guardar</button>
       </div>
     </div>
   </div>
