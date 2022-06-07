@@ -17,6 +17,9 @@
         } elseif ($porciones2[1] == 'facultadGView') {
             $script = '<script src="../assets/js/facultad/index.js"></script>';
             echo $script;
+        } elseif ($porciones2[1] == 'universidadView') {
+            $script = '<script src="../assets/js/universidad/universidad.js"></script>';
+            echo $script;
         } elseif ($porciones2[1] == 'universidadGView') {
             $script = '<script src="../assets/js/universidad/index.js"></script>';
             echo $script;

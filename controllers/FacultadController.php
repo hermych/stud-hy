@@ -8,7 +8,7 @@ class FacultadController
   /**Vistas */
   public function facultadView()
   {
-    require_once "../views/universidad/index.php";
+    require_once "../views/facultad/index.php";
   }
   public function facuEspecifico($id)
   {
@@ -152,7 +152,7 @@ class FacultadController
 
 $facultad = new FacultadController();
 
-if ($_GET['method'] == 'universidadView') {
+if ($_GET['method'] == 'facultadView') {
   if (isset($_GET['id'])) {
     $id = $_GET['id'];
     echo ($facultad->facuEspecifico($id));

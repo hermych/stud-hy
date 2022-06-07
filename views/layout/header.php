@@ -6,8 +6,12 @@ if (count($porciones) > 1) {
     $title = 'Iniciar Sesion';
   } elseif ($porciones2[1] == 'registroView') {
     $title = 'Registrarse';
+  } elseif ($porciones2[1] == 'universidadView') {
+    $title = 'Universidades';
   } elseif ($porciones2[1] == 'universidadGView') {
     $title = 'Gestionar Universidad';
+  } elseif ($porciones2[1] == 'facultadView') {
+    $title = 'Facultades';
   } elseif ($porciones2[1] == 'facultadGView') {
     $title = 'Gestionar Facultades';
   } elseif ($porciones2[1] == 'carreraGView') {
@@ -42,4 +46,9 @@ if (count($porciones) > 1) {
 </head>
 
 <body>
-  <div class="container-fluid">
+  <div class="row d-flex">
+    <div class="col-2">
+      <div> asdkaksd</div>
+    </div>
+    <div class="col-10">
+      <div class="container-fluid">

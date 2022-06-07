@@ -12,6 +12,7 @@ class UniversidadController
   }
   public function univEspecifico($id)
   {
+    require_once "../views/universidad/univEspecifo.php";
   }
   public function universidadGView()
   {
