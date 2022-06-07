@@ -244,295 +244,80 @@ function validarInputSoloNumeros(evt) {
     return false;
   }
 }
-function listarDepartamentos() {
-  window.$.ajax({
-    type: "post",
-    url: "DepartamentoController.php?method=listarDepartamentos",
-    beforeSend: function () {},
-    success: function (response) {
-      let data = JSON.parse(response);
-      let selectDepa = document.getElementById("departamento");
-      contenido = "<option value='0'>Seleccion departamento</option>";
-      data.forEach((depa) => {
-        contenido += `<option value=${depa.id_departamento}>${depa.nombre}</option>`;
-      });
-      selectDepa.innerHTML = contenido;
-    },
-  });
-}
-function listarProvincias() {
-  /**Capturando valores */
-  let formData = new FormData();
-  formData.append("iddep", $("#departamento").val());
-  /**Enviando valores al servidor */
-  window.$.ajax({
-    type: "post",
-    url: "ProvinciaController.php?method=listarProvincias",
-    data: formData,
-    cache: false,
-    processData: false,
-    contentType: false,
-    beforeSend: function () {
-      $("#btnRegistrarUsuario").prop("disabled", true);
-    },
-    success: function (response) {
-      let data = JSON.parse(response);
-      let selectProv = document.getElementById("provincia");
-      contenido = "<option value='0'>Seleccione provincia</option>";
-      data.forEach((depa) => {
-        contenido += `<option value=${depa.id_provincia}>${depa.nombre}</option>`;
-      });
-      selectProv.innerHTML = contenido;
-    },
-  });
-}
-function listarDistritos() {
-  /**Capturando valores */
-  let formData = new FormData();
-  formData.append("iddep", $("#departamento").val());
-  formData.append("idprov", $("#provincia").val());
-  /**Enviando valores al servidor */
-  window.$.ajax({
-    type: "post",
-    url: "DistritoController.php?method=listarDistritos",
-    data: formData,
-    cache: false,
-    processData: false,
-    contentType: false,
-    beforeSend: function () {
-      $("#btnRegistrarUsuario").prop("disabled", true);
-    },
-    success: function (response) {
-      let data = JSON.parse(response);
-      let selectDist = document.getElementById("distrito");
-      contenido = "<option value='0'>Seleccione distrito</option>";
-      data.forEach((depa) => {
-        contenido += `<option value=${depa.id_distrito}>${depa.nombre}</option>`;
-      });
-      selectDist.innerHTML = contenido;
-    },
-  });
-}
-function listarDepartamentosEdit(idDep) {
-  window.$.ajax({
-    type: "GET",
-    url: "DepartamentoController.php?method=listarDepartamentos",
-    success: function (response) {
-      let data2 = JSON.parse(response);
-      let selectDepa = document.getElementById("departamentoEdit");
-      contenido = "<option value='0'>Seleecion departamento</option>";
-      data2.forEach((depa) => {
-        contenido += `<option value=${depa.id_departamento}>${depa.nombre}</option>`;
-      });
-      selectDepa.innerHTML = contenido;
-    },
-    complete: function () {
-      $("#departamentoEdit").val(idDep);
-    },
-  });
-}
-function listarProviciasEdit(iddep, idprov) {
-  let selectProvincia = document.getElementById("provinciaEdit");
-  let formData = new FormData();
-  formData.append("iddep", iddep);
-  window.$.ajax({
-    type: "post",
-    url: "ProvinciaController.php?method=listarProvincias",
-    data: formData,
-    cache: false,
-    processData: false,
-    contentType: false,
-    success: function (response) {
-      let data = JSON.parse(response);
-      contenido = "<option value='0'>Seleecione provincia</option>";
-      data.forEach((prov) => {
-        contenido += `<option value=${prov.id_provincia}>${prov.nombre}</option>`;
-      });
-      selectProvincia.innerHTML = contenido;
-    },
-    complete: function () {
-      $("#provinciaEdit").val(idprov);
-    },
-  });
-}
-function listarDistritosEdit(iddep, idprov, iddist) {
-  let selectDistrito = document.getElementById("distritoEdit");
-  let formData = new FormData();
-  formData.append("iddep", iddep);
-  formData.append("idprov", idprov);
-  window.$.ajax({
-    type: "post",
-    url: "DistritoController.php?method=listarDistritos",
-    data: formData,
-    cache: false,
-    processData: false,
-    contentType: false,
-    success: function (response) {
-      let data = JSON.parse(response);
-      contenido = "<option value='0'>Seleccione distrito</option>";
-      data.forEach((prov) => {
-        contenido += `<option value=${prov.id_distrito}>${prov.nombre}</option>`;
-      });
-      selectDistrito.innerHTML = contenido;
-    },
-    complete: function () {
-      $("#distritoEdit").val(iddist);
-    },
-  });
-}
 // ###############################################
 
-// ********** REGISTRAR UNIVERSIDAD **************
-$("#btnModalRegistrarUniv").click(() => {
-  listarDepartamentos();
+// ********** VALIDAR MODAL REGISTRAR **************
+$("#btnModalRegistrarFacu").click(() => {
   let nombre = document.getElementById("nombre");
-  let departamento = document.getElementById("departamento");
-  let provincia = document.getElementById("provincia");
-  let distrito = document.getElementById("distrito");
-  let imagen = document.getElementById("imagen");
+  let duracion = document.getElementById("duracion");
+  let grado = document.getElementById("grado");
+  let titulo = document.getElementById("titulo");
   let descripcion = document.getElementById("descripcion");
+  let perfil = document.getElementById("perfil");
   setInterval(() => {
-    datosArray = [
-      nombre,
-      departamento,
-      provincia,
-      distrito,
-      descripcion,
-      imagen,
-    ];
+    datosArray = [nombre, duracion, grado, titulo, descripcion, perfil];
     let respuesta = validarDatos(datosArray);
     if (Object.keys(respuesta).length == 0) {
-      $("#btnGuardarUniversidad").prop("disabled", false);
+      $("#btnGuardar").prop("disabled", false);
     } else {
-      $("#btnGuardarUniversidad").prop("disabled", true);
+      $("#btnGuardar").prop("disabled", true);
     }
   }, 200);
 });
-$("#departamento").change(function () {
-  if ($("#departamento").val() != 0) {
-    listarProvincias();
-    $("#provincia").prop("disabled", false);
-    $("#distrito").prop("disabled", true);
-    $("#distrito").val("0");
-  } else {
-    $("#provincia").prop("disabled", true);
-    $("#distrito").prop("disabled", true);
-    $("#provincia").val("0");
-    $("#distrito").val("0");
-  }
-});
-$("#provincia").change(function () {
-  if ($("#provincia").val() != 0) {
-    listarDistritos();
-    $("#distrito").prop("disabled", false);
-  } else {
-    $("#distrito").prop("disabled", true);
-    $("#distrito").val("0");
-  }
-});
-//*******************************
-// Abrir modal de editar usuario y validar los campos con datos
-$("#tbody").on("click", "#btnAbriModalEditarCliente", function () {
-  let nroDocumentoEdit = document.getElementById("nroDocumentoEdit");
-  let nombreClienteEdit = document.getElementById("nombreClienteEdit");
-  let celuClienteEdit = document.getElementById("celuClienteEdit");
-  let idDepartamentoEdit = document.getElementById("idDepartamentoEdit");
-  let idProvinciaEdit = document.getElementById("idProvinciaEdit");
-  let idDistritoEdit = document.getElementById("idDistritoEdit");
-  let direcClienteEdit = document.getElementById("direcClienteEdit");
-  let nombreContactoProvEdit = document.getElementById(
-    "nombreContactoProvEdit"
-  );
-  let telfContactoProvEdit = document.getElementById("telfContactoProvEdit");
-  datosArray = [
-    nroDocumentoEdit,
-    nombreClienteEdit,
-    celuClienteEdit,
-    idDepartamentoEdit,
-    idProvinciaEdit,
-    idDistritoEdit,
-    direcClienteEdit,
-    nombreContactoProvEdit,
-    telfContactoProvEdit,
-  ];
+// ********** VALIDAR MODAL EDITAR ***************
+$("#tbody").on("click", ".editar", function () {
+  let nombre = document.getElementById("nombreEdit");
+  let descripcion = document.getElementById("descripcionEdit");
+  datosArray = [nombre, descripcion];
   setInterval(() => {
     let respuesta = validarDatos(datosArray);
     if (Object.keys(respuesta).length == 0) {
-      $("#btnEditarCliente").prop("disabled", false);
+      $("#btnEditar").prop("disabled", false);
     } else {
-      $("#btnEditarCliente").prop("disabled", true);
+      $("#btnEditar").prop("disabled", true);
     }
   }, 200);
 });
-// validar los campos de formulario editar
-setInterval(() => {
-  let nombreEdit = $("#nombreEdit").val();
-  let departamentoEdit = $("#departamentoEdit").val();
-  let provinciaEdit = $("#provinciaEdit").val();
-  let distritoEdit = $("#distritoEdit").val();
-  let descripcionEdit = $("#descripcionEdit").val();
-  if (
-    nombreEdit == "" ||
-    departamentoEdit == "" ||
-    provinciaEdit == "" ||
-    distritoEdit == "" ||
-    descripcionEdit == ""
-  ) {
-    $("#btnEditarUniversidad").prop("disabled", true);
-  } else {
-    $("#btnEditarUniversidad").prop("disabled", false);
-  }
-}, 200);
 // ######## LLENAR DATA TABLE ############
 $(document).ready(function () {
-  let dataTable = $("#universidadTable").DataTable({
+  // Listar tabla con datos
+  let dataTable = $("#table").DataTable({
     ajax: {
-      url: "../controllers/UniversidadController.php?method=universidadGList",
+      url: "?method=carreraGList",
       method: "GET",
     },
     columns: [
       { data: "indice" },
       { data: "nombre" },
       { data: "descripcion" },
-      { data: "departamento" },
-      { data: "provincia" },
-      {
-        data: "distrito",
-        render: function (data, type, row) {
-          if (row.distrito == "Lima") {
-            return `Cercado de Lima`;
-          } else {
-            return `${row.distrito}`;
-          }
-        },
-      },
-      {
-        data: "imagen",
-        render: function (data, type, row) {
-          return `<button type="button" id="btnVerFoto" class="verFoto btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalVerFoto"><i class="fas fa-eye"></i></button>`;
-        },
-      },
+      { data: "grado" },
+      { data: "titulo" },
+      { data: "duracion" },
+      { data: "perfil" },
+      { data: "plan_estudio" },
       {
         defaultContent: `
-          <button type="button" class="editar btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarUniversidad"><i class="fas fa-edit"></i></button>
-          <button type="button" class="inhabilitar btn btn-danger btn-sm" data-toggle="modal" data-target="#modalInhabilitarUniv"><i class="fas fa-trash-alt"></i></button>
+          <button type="button" class="editar btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarCarrera"><i class="fas fa-edit"></i></button>
+          <button type="button" class="inhabilitar btn btn-danger btn-sm" data-toggle="modal" data-target="#modalInhabilitarFacu"><i class="fas fa-trash-alt"></i></button>
           `,
       },
     ],
     language: español,
   });
   // Proceso de guardar universidad
-  $("#btnGuardarUniversidad").click(function () {
+  $("#btnGuardar").click(function () {
+    console.log("hola");
     formData = new FormData();
     formData.append("nombre", $("#nombre").val().toUpperCase());
-    formData.append("iddep", $("#departamento").val());
-    formData.append("idprov", $("#provincia").val());
-    formData.append("iddist", $("#distrito").val());
-    formData.append("imagen", $("#imagen")[0].files[0]);
-    formData.append("descripcion", $("#descripcion").val().toUpperCase());
+    formData.append("duracion", $("#duracion").val());
+    formData.append("grado", $("#grado").val());
+    formData.append("titulo", $("#titulo").val());
+    formData.append("descripcion", $("#descripcion").val());
+    formData.append("perfil", $("#perfil").val());
+    formData.append("planEstudio", $("#planEstudio")[0].files[0]);
     window.$.ajax({
       type: "post",
-      url: "../controllers/UniversidadController.php?method=universidadGSave",
+      url: "?method=carreraGSave",
       data: formData,
       cache: false,
       processData: false,
@@ -560,16 +345,15 @@ $(document).ready(function () {
           $("#distrito").val("0");
           $("#imagen").val("");
           $("#descripcion").val("");
-          $("#modalRegistrarUniversidad").hide();
+          $("#modalRegistrarCarrera").hide();
           $(".modal-backdrop").remove();
-          console.log("asdasdadads");
           Swal.fire({
             text: data.mensaje,
             icon: "success",
           });
           setTimeout(() => {
             Swal.close();
-          }, 900);
+          }, 1200);
         } else {
           Swal.fire({
             text: data.mensaje,
@@ -577,39 +361,32 @@ $(document).ready(function () {
           });
           setTimeout(() => {
             Swal.close();
-          }, 900);
+          }, 1200);
         }
       },
     });
   });
   // Modal editar Universidad con datos correspondientes
-  $("#universidadTable tbody").on("click", ".editar", function () {
+  $("#table tbody").on("click", ".editar", function () {
     let data = dataTable.row($(this).parents()).data();
-    let iddep = data.id_departamento;
-    let idprov = data.id_provincia;
-    let iddist = data.id_distrito;
-    let ruta = `../assets/image/fotosUniv/${data.imagen}`;
-    listarDepartamentosEdit(iddep);
-    listarProviciasEdit(iddep, idprov);
-    listarDistritosEdit(iddep, idprov, iddist);
-    $("#descripcionEdit").val(data.descripcion);
-    $("#iduniv").val(data.id_universidad);
+    $("#id_carrera").val(data.id_carrera);
     $("#nombreEdit").val(data.nombre);
-    $("#fotoPortada").attr("src", `${ruta}`);
-  });
+    $("#duracionEdit").val(data.duracion);
+    $("#gradoEdit").val(data.grado);
+    $("#tituloEdit").val(data.titulo);
+    $("#descripcionEdit").val(data.descripcion);
+    $("#perfilEdit").val(data.perfil);
+    $("#planEstudioEdit").val(data.plan_estudio);
+  }); 
   // Proceso de editar universidad
-  $("#btnEditarUniversidad").click(function () {
+  $("#btnEditar").click(function () {
     formData = new FormData();
-    formData.append("iduniv", $("#iduniv").val());
-    formData.append("nombreEdit", $("#nombreEdit").val().toUpperCase());
-    formData.append("departamentoEdit", $("#departamentoEdit").val());
-    formData.append("provinciaEdit", $("#provinciaEdit").val());
-    formData.append("distritoEdit", $("#distritoEdit").val());
-    formData.append("descripcionEdit", $("#descripcionEdit").val());
-    formData.append("imagenEdit", $("#imagenEdit")[0].files[0]);
+    formData.append("idfacu", $("#idfacu").val());
+    formData.append("nombre", $("#nombreEdit").val().toUpperCase());
+    formData.append("descripcion", $("#descripcionEdit").val());
     window.$.ajax({
       type: "post",
-      url: "?method=universidadGEdit",
+      url: "?method=carreraGEdit",
       data: formData,
       cache: false,
       processData: false,
@@ -631,7 +408,7 @@ $(document).ready(function () {
         let data = JSON.parse(response);
         if (data.estado == "ok") {
           dataTable.ajax.reload();
-          $("#modalEditarUniversidad").hide();
+          $("#modalEditarFacultad").hide();
           $(".modal-backdrop").remove();
           Swal.fire({
             text: data.mensaje,
@@ -639,7 +416,7 @@ $(document).ready(function () {
           });
           setTimeout(() => {
             Swal.close();
-          }, 1000);
+          }, 1200);
         } else {
           Swal.fire({
             text: data.mensaje,
@@ -647,24 +424,24 @@ $(document).ready(function () {
           });
           setTimeout(() => {
             Swal.close();
-          }, 900);
+          }, 1200);
         }
       },
     });
   });
   // Modal Inhabilitar Universidad con datos correspondientes
-  $("#universidadTable tbody").on("click", ".inhabilitar", function () {
+  $("#table tbody").on("click", ".inhabilitar", function () {
     let data = dataTable.row($(this).parents()).data();
-    $("#nombreUnivInhabilitar").text(data.nombre);
-    $("#idUnivInhabilitar").val(data.id_universidad);
+    $("#nombreFacuInhabilitar").text(data.nombre);
+    $("#idFacuInhabilitar").val(data.id_facultad);
   });
   // Proceso de inhabilitar Universidad
-  $("#btnInhabilitarUniv").click(function (e) {
+  $("#btnInhabilitar").click(function (e) {
     let formData = new FormData();
-    formData.append("iduniv", $("#idUnivInhabilitar").val());
+    formData.append("idfacu", $("#idFacuInhabilitar").val());
     window.$.ajax({
       type: "post",
-      url: "?method=universidadGDelete",
+      url: "?method=facultadGDelete",
       data: formData,
       cache: false,
       processData: false,
@@ -688,7 +465,7 @@ $(document).ready(function () {
         let data = JSON.parse(response);
         if (data.estado == "ok") {
           dataTable.ajax.reload();
-          "#modalInhabilitarUniv".hide();
+          $("#modalInhabilitarFacu").hide();
           $(".modal-backdrop").remove();
           Swal.fire({
             text: data.mensaje,
@@ -696,7 +473,7 @@ $(document).ready(function () {
           });
           setTimeout(() => {
             Swal.close();
-          }, 900);
+          }, 1200);
         } else {
           Swal.fire({
             text: data.mensaje,
@@ -704,15 +481,9 @@ $(document).ready(function () {
           });
           setTimeout(() => {
             Swal.close();
-          }, 900);
+          }, 1200);
         }
       },
     });
-  });
-  // Modal ver foto de Universidad con datos correspondientes
-  $("#universidadTable tbody").on("click", ".verFoto", function () {
-    let data = dataTable.row($(this).parents()).data();
-    let ruta = `../assets/image/fotosUniv/${data.imagen}`;
-    $("#fotoPortadaVista").attr("src", `${ruta}`);
   });
 });

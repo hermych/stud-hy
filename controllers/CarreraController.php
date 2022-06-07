@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../models/facultad.php";
+require_once "../models/carrera.php";
 //require_once "../helpers/utils.php";
 
 class FacultadController
@@ -13,17 +13,17 @@ class FacultadController
   public function facuEspecifico($id)
   {
   }
-  public function facultadGView()
+  public function carreraGView()
   {
-    require_once "../views/facultad/indexG.php";
+    require_once "../views/carrera/indexG.php";
   }
   /**Metodos */
-  public function facultadGList()
+  public function carreraGList()
   {
     $indice = 1;
     $respuesta = [];
-    $facuObj = new Facultad();
-    $facultades = $facuObj->facultadGList();
+    $facuObj = new Carrera();
+    $facultades = $facuObj->carreraGList();
     if (count($facultades) == 0) {
       $respuesta = [
         'indice' => '-',
@@ -43,17 +43,20 @@ class FacultadController
     }
     return json_encode($respuesta);
   }
-  public function facultadGSave()
+  public function carreraGSave()
   {
     $respuesta = [];
     // proceso de guardar datos
     if (isset($_POST)) {
       $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : false;
-
+      $duracion = isset($_POST['duracion']) ? $_POST['duracion'] : false;
+      $grado = isset($_POST['grado']) ? $_POST['grado'] : false;
+      $titulo = isset($_POST['titulo']) ? $_POST['titulo'] : false;
       $descripcion = isset($_POST['descripcion']) ? $_POST['descripcion'] : false;
+      $perfil = isset($_POST['perfil']) ? $_POST['perfil'] : false;
       if ($nombre && $descripcion) {
-        $facuObj = new Facultad();
-        $registrar = $facuObj->facultadGSave($nombre, $descripcion);
+        $facuObj = new Carrera();
+        $registrar = $facuObj->carreraGSave($nombre, $duracion, $grado, $titulo, $descripcion, $perfil);
         if ($registrar == 1) {
           $respuesta = [
             'estado' => 'ok',
@@ -79,7 +82,7 @@ class FacultadController
     }
     return json_encode($respuesta);
   }
-  public function facultadGEdit()
+  public function carreraGEdit()
   {
     $respuesta = [];
     // proceso de guardar datos
@@ -88,8 +91,8 @@ class FacultadController
       $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : false;
       $descripcion = isset($_POST['descripcion']) ? $_POST['descripcion'] : false;
       if ($idfacu && $nombre && $descripcion) {
-        $univObj = new Facultad();
-        $registrar = $univObj->facultadGEdit($idfacu, $nombre, $descripcion);
+        $univObj = new Carrera();
+        $registrar = $univObj->carreraGEdit($idfacu, $nombre, $descripcion);
         if ($registrar == 1) {
           $respuesta = [
             'estado' => 'ok',
@@ -115,14 +118,14 @@ class FacultadController
     }
     return json_encode($respuesta);
   }
-  public function facultadGDelete()
+  public function facarreraelete()
   {
     // proceso de guardar datos
     if (isset($_POST)) {
       $idfacu = isset($_POST['idfacu']) ? $_POST['idfacu'] : false;
       if ($idfacu) {
-        $univObj = new Facultad();
-        $registrar = $univObj->facultadGDelete($idfacu);
+        $univObj = new Carrera();
+        $registrar = $univObj->facarreraelete($idfacu);
         if ($registrar['estado'] == 'ok') {
           $respuesta = [
             'estado' => 'ok',
@@ -159,16 +162,16 @@ if ($_GET['method'] == 'universidadView') {
   } else {
     echo ($facultad->facultadView());
   }
-} elseif ($_GET['method'] == 'facultadGView') {
-  echo ($facultad->facultadGView());
-} elseif ($_GET['method'] == 'facultadGList') {
-  echo ($facultad->facultadGList());
-} elseif ($_GET['method'] == 'facultadGSave') {
-  echo ($facultad->facultadGSave());
-} elseif ($_GET['method'] == 'facultadGEdit') {
-  echo ($facultad->facultadGEdit());
-} elseif ($_GET['method'] == 'facultadGDelete') {
-  echo ($facultad->facultadGDelete());
+} elseif ($_GET['method'] == 'carreraGView') {
+  echo ($facultad->carreraGView());
+} elseif ($_GET['method'] == 'carreraGList') {
+  echo ($facultad->carreraGList());
+} elseif ($_GET['method'] == 'carreraGSave') {
+  echo ($facultad->carreraGSave());
+} elseif ($_GET['method'] == 'carreraGEdit') {
+  echo ($facultad->carreraGEdit());
+} elseif ($_GET['method'] == 'facarreraelete') {
+  echo ($facultad->facarreraelete());
 }
 /* else {
   if ($_GET['method'] == 'login') {

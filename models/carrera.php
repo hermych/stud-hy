@@ -2,7 +2,7 @@
 
 require_once "../config/db.php";
 
-class Facultad
+class Carrera
 {
   private $db;
 
@@ -12,30 +12,30 @@ class Facultad
   }
 
   /* ##### METODOS ###### */
-  public function facultadGSave($nombre, $descripcion)
+  public function carreraGSave($nombre, $duracion, $grado, $titulo, $descripcion, $perfil)
   {
     $result = false;
-    $sql = "INSERT INTO `facultades`(`nombre`, `descripcion`) VALUES ('$nombre','$descripcion')";
+    $sql = "INSERT INTO `carreras`(`nombre`, `descripcion`, `grado`, `titulo`, `duracion`, `perfil`) VALUES ('$nombre','$descripcion','$grado','$titulo','$duracion','$perfil')";
     $save = $this->db->query($sql);
     if ($save) {
       $result = true;
     }
     return $result;
   }
-  public function facultadGList()
+  public function carreraGList()
   {
-    $sql_facu = "SELECT * FROM `facultades`";
+    $sql_facu = "SELECT * FROM `carreras`";
     $listarFacus = $this->db->query($sql_facu);
     $facultades = $listarFacus->fetch_all(MYSQLI_ASSOC);
     return $facultades;
   }
-  public function facultadGEdit($idfacu, $nombre, $descripcion)
+  public function carreraGEdit($idfacu, $nombre, $descripcion)
   {
     $sql_edit = "UPDATE `facultades` SET `nombre`='$nombre',`descripcion`='$descripcion' WHERE id_facultad = '$idfacu'";
     $editar = $this->db->query($sql_edit);
     return $editar;
   }
-  public function facultadGDelete($idfacu)
+  public function facarreraelete($idfacu)
   {
     /* Verificar si la universidad pertenece a algun registro */
     $respuesta = [];

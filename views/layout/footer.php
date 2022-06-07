@@ -20,6 +20,9 @@
         } elseif ($porciones2[1] == 'universidadGView') {
             $script = '<script src="../assets/js/universidad/index.js"></script>';
             echo $script;
+        } elseif ($porciones2[1] == 'carreraGView') {
+            $script = '<script src="../assets/js/carrera/index.js"></script>';
+            echo $script;
         }
     }
     ?>

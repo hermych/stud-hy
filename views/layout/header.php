@@ -10,6 +10,8 @@ if (count($porciones) > 1) {
     $title = 'Gestionar Universidad';
   } elseif ($porciones2[1] == 'facultadGView') {
     $title = 'Gestionar Facultades';
+  } elseif ($porciones2[1] == 'carreraGView') {
+    $title = 'Gestionar Carreras';
   }
 } else {
   $title = 'Inicio';

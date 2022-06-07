@@ -15,7 +15,7 @@ class UniversidadController
   }
   public function universidadGView()
   {
-    require_once "../views/universidad/index.php";
+    require_once "../views/universidad/indexG.php";
   }
   /**Metodos */
   public function universidadGList()
