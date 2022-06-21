@@ -12,10 +12,10 @@ class Carrera
   }
 
   /* ##### METODOS ###### */
-  public function carreraGSave($nombre, $duracion, $grado, $titulo, $descripcion, $perfil)
+  public function carreraGSave($nombre, $duracion, $grado, $titulo, $descripcion, $perfil, $plan_estudio)
   {
     $result = false;
-    $sql = "INSERT INTO `carreras`(`nombre`, `descripcion`, `grado`, `titulo`, `duracion`, `perfil`) VALUES ('$nombre','$descripcion','$grado','$titulo','$duracion','$perfil')";
+    $sql = "INSERT INTO `carreras`(`nombre`, `descripcion`, `grado`, `titulo`, `duracion`, `perfil`, `plan_estudio`) VALUES ('$nombre','$descripcion','$grado','$titulo','$duracion','$perfil', '$plan_estudio')";
     $save = $this->db->query($sql);
     if ($save) {
       $result = true;

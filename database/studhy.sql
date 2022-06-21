@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-06-2022 a las 18:01:11
+-- Tiempo de generación: 07-06-2022 a las 18:34:37
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 8.0.12
 
@@ -30,8 +30,21 @@ SET time_zone = "+00:00";
 CREATE TABLE `carreras` (
   `id_carrera` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL,
-  `descripcion` varchar(255) NOT NULL
+  `descripcion` text NOT NULL,
+  `grado` varchar(50) NOT NULL,
+  `titulo` varchar(50) NOT NULL,
+  `duracion` varchar(50) NOT NULL,
+  `perfil` text NOT NULL,
+  `plan_estudio` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `carreras`
+--
+
+INSERT INTO `carreras` (`id_carrera`, `nombre`, `descripcion`, `grado`, `titulo`, `duracion`, `perfil`, `plan_estudio`) VALUES
+(1, 'Ingeniería Mecánica y Eléctrica', 'El ingeniero mecánico electricista, egresado de la Untels, diseña, construye, instala y dirige. Mantiene, controla e innova sistemas destinados a la generación, transformación, transmisión y aprovechamiento de la energía eléctrica en todas sus aplicaciones.', 'Bachiller en Ingeniera Mecánica y Eléctrica', 'Ingeniero Mecánico Electricista', '5', 'El Ingeniero Mecánico Electricista egresado de la Universidad Nacional Tecnológica de Lima Sur tiene una formación integral, humanística y científica, consciente de la realidad social, científica y tecnológica a nivel regional y nacional, con aptitudes de inteligencia emocional y valorativa, con habilidades en investigación científica-tecnológica y capacidad productiva, conoce las tendencias del mundo globalizado.', NULL),
+(2, 'ADMINISTRACIÓN DE NEGOCIOS INTERNACIONALES', 'La Escuela Profesional de Administración de Negocios Internacionales tiene la misión de formar profesionales de Negocios Internacionales del más alto nivel académico y humanístico, capaz de desempeñarse en las empresas y organizaciones que se desarrollan en los mercados y en los negocios internacionales, así como en la investigación, consultoría y docencia.', 'Bachiller en Administración de Negocios Internacio', 'Licenciado en Administración de Negocios Internaci', '5', 'Es un profesional capacitado para identificar oportunidades de negocios en los mercados internacionales. Está en condiciones de desarrollar estrategias de negocios en el campo de la exportación e importación considerando los cambios de los factores externos que afectan a los mercados globales. Está capacitado para interpretar y aprovechar las diferencias socioculturales, económicas y tecnológicas de los agentes involucrados en el comercio internacional con el fin de concretar negociaciones internacionales exitosas, entre otras competencias.', NULL);
 
 -- --------------------------------------------------------
 
@@ -2004,6 +2017,13 @@ CREATE TABLE `facultades` (
   `descripcion` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `facultades`
+--
+
+INSERT INTO `facultades` (`id_facultad`, `nombre`, `descripcion`) VALUES
+(5, 'FACULTAD DE INGENIERÍA MECÁNICA ELECTRICA', 'Facultad de prueba');
+
 -- --------------------------------------------------------
 
 --
@@ -2326,7 +2346,8 @@ CREATE TABLE `universidades` (
 --
 
 INSERT INTO `universidades` (`id_universidad`, `id_departamento`, `id_provincia`, `id_distrito`, `id_prospecto`, `nombre`, `descripcion`, `imagen_url`) VALUES
-(10, 15, 1501, 150142, NULL, 'UNIVERSIDAD NACIONAL TECNOLÓGICA DE LIMA SUR', 'DESDE LA DÉCADA DE LOS 70, EN EL SIGLO XX, CUANDO SURGIÓ VILLA EL SALVADOR, SUS POBLADORES QUE CREARON LA COMUNIDAD AUTOGESTIONARIA DE VILLA EL SALVADOR INCLUYERON EN SU PRIMER PLAN DE DESARROLLO INTEGRAL LA CREACIÓN DE UNA UNIVERSIDAD PÚBLICA, ENTRE LAS ', '5e06d22c88_untels.jpg');
+(10, 15, 1501, 150142, NULL, 'UNIVERSIDAD NACIONAL TECNOLÓGICA DE LIMA SUR', 'DESDE LA DÉCADA DE LOS 70, EN EL SIGLO XX, CUANDO SURGIÓ VILLA EL SALVADOR, SUS POBLADORES QUE CREARON LA COMUNIDAD AUTOGESTIONARIA DE VILLA EL SALVADOR INCLUYERON EN SU PRIMER PLAN DE DESARROLLO INTEGRAL LA CREACIÓN DE UNA UNIVERSIDAD PÚBLICA, ENTRE LAS ', '5e06d22c88_untels.jpg'),
+(11, 15, 1501, 150101, NULL, 'UNIVERSIDAD NACIONAL MAYOR DE SAN MARCOS', 'ESTO ES UNA PRUEBA NADA MAS', 'b1b9869903_san_marcos.jpg');
 
 -- --------------------------------------------------------
 
@@ -2505,7 +2526,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `carreras`
 --
 ALTER TABLE `carreras`
-  MODIFY `id_carrera` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_carrera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `cursos`
@@ -2535,7 +2556,7 @@ ALTER TABLE `distritos`
 -- AUTO_INCREMENT de la tabla `facultades`
 --
 ALTER TABLE `facultades`
-  MODIFY `id_facultad` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_facultad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `preguntas`
@@ -2589,7 +2610,7 @@ ALTER TABLE `temas`
 -- AUTO_INCREMENT de la tabla `universidades`
 --
 ALTER TABLE `universidades`
-  MODIFY `id_universidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_universidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`

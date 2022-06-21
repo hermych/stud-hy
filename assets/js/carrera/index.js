@@ -289,12 +289,35 @@ $(document).ready(function () {
     columns: [
       { data: "indice" },
       { data: "nombre" },
-      { data: "descripcion" },
+      {
+        data: "descripcion",
+        render: function (data, type, row) {
+          if (row.descripcion != "") {
+            return `<i class="text-info fs-5 fab fa-readme"></i>`;
+          }
+        },
+      },
       { data: "grado" },
       { data: "titulo" },
       { data: "duracion" },
-      { data: "perfil" },
-      { data: "plan_estudio" },
+      {
+        data: "perfil",
+        render: function (data, type, row) {
+          if (row.perfil != "") {
+            return `<i class="text-success fs-5 fas fa-plus-circle"></i>`;
+          }
+        },
+      },
+      {
+        data: "plan_estudio",
+        render: function (data, type, row) {
+          if (row.plan_estudio != "" && row.plan_estudio != null) {
+            return `<i class="text-success fs-5 fas fa-file-pdf"></i>`;
+          } else {
+            return `<i class="text-danger fs-5 fas fa-times-circle"></i>`;
+          }
+        },
+      },
       {
         defaultContent: `
           <button type="button" class="editar btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarCarrera"><i class="fas fa-edit"></i></button>
@@ -339,12 +362,13 @@ $(document).ready(function () {
         let data = JSON.parse(response);
         if (data.estado == "ok") {
           dataTable.ajax.reload();
-          $("#nombre").val("");
-          $("#departamento").val("0");
-          $("#provincia").val("0");
-          $("#distrito").val("0");
-          $("#imagen").val("");
+          $("#nombnombrere").val("");
+          $("#duracion").val("");
+          $("#grado").val("");
+          $("#titulo").val("");
           $("#descripcion").val("");
+          $("#perfil").val("");
+          $("#planEstudio").val("");
           $("#modalRegistrarCarrera").hide();
           $(".modal-backdrop").remove();
           Swal.fire({
@@ -377,7 +401,7 @@ $(document).ready(function () {
     $("#descripcionEdit").val(data.descripcion);
     $("#perfilEdit").val(data.perfil);
     $("#planEstudioEdit").val(data.plan_estudio);
-  }); 
+  });
   // Proceso de editar universidad
   $("#btnEditar").click(function () {
     formData = new FormData();

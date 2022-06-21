@@ -46,6 +46,32 @@ class FacultadController
   public function carreraGSave()
   {
     $respuesta = [];
+    // Subir plan de estudio
+    if (isset($_FILES['planEstudio'])) {
+      $file = $_FILES['planEstudio'];
+      $filename = $file['name'];
+      $mimetype = $file['type'];
+
+      $allowed_type = array("gif", "jpeg", "jpg", "png", "pdf");
+      $temp = explode(".", $_FILES["planEstudio"]["name"]);
+      $extension = end($temp);
+      if ($_FILES["planEstudio"]["type"] == "application/pdf") {
+        // crear directorio upload
+        if (!is_dir("../assets/plan_estudios_pdf")) {
+          mkdir("../assets/plan_estudios_pdf", 0777);
+        }
+        // mover archivo a upload
+        $name = $filename;
+        $rutaPlan = "../assets/plan_estudios_pdf/" . $name;
+        move_uploaded_file($file['tmp_name'], $rutaPlan);
+      } else {
+        $respuesta = [
+          'estado' => 'failed',
+          'mensaje' => 'por favor, selecciona un archivo pdf'
+        ];
+        return json_encode($respuesta);
+      }
+    }
     // proceso de guardar datos
     if (isset($_POST)) {
       $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : false;
@@ -54,9 +80,10 @@ class FacultadController
       $titulo = isset($_POST['titulo']) ? $_POST['titulo'] : false;
       $descripcion = isset($_POST['descripcion']) ? $_POST['descripcion'] : false;
       $perfil = isset($_POST['perfil']) ? $_POST['perfil'] : false;
+      $plan_estudio = isset($name) ? $name : '';
       if ($nombre && $descripcion) {
         $facuObj = new Carrera();
-        $registrar = $facuObj->carreraGSave($nombre, $duracion, $grado, $titulo, $descripcion, $perfil);
+        $registrar = $facuObj->carreraGSave($nombre, $duracion, $grado, $titulo, $descripcion, $perfil, $plan_estudio);
         if ($registrar == 1) {
           $respuesta = [
             'estado' => 'ok',
