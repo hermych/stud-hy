@@ -1,4 +1,8 @@
-    </div>
+    </div> <!--  3 -->
+    </div> <!--  1 -->
+    </div> <!--  1 -->
+<!-- ########### probando ###########  -->
+    <script src="../assets/js/librerias/sidebar.js"></script>
     <!-- ########### LINKS DE JQUERY ###########  -->
     <script src="../assets/js/librerias/jquery-3.6.0.min.js"></script>
     <!-- ########### LINK DE DATATABLES ############## -->
