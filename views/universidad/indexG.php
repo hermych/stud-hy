@@ -15,9 +15,9 @@
           <th scope="col">#</th>
           <th scope="col" style="width: 20%;">Nombre</th>
           <th scope="col">Descripcion</th>
-          <th scope="col">Departamento</th>
-          <th scope="col">Provincia</th>
-          <th scope="col">Distrito</th>
+          <th scope="col">Depa</th>
+          <th scope="col">Prov</th>
+          <th scope="col" style="width: 10%;">Distrito</th>
           <th scope="col">Foto</th>
           <th scope="col">Opciones</th>
       </thead>
@@ -174,6 +174,29 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
         <button type="button" id="btnInhabilitarUniv" class="btn btn-success">Confirmar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Habilitar Universidad -->
+<div class="modal fade" id="modalHabilitarUniv" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Habilitar Universidad</h5>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <h6>¿Estas por habilitar a: <p class="d-inline fw-bolder" id="nombreUnivHabilitar"></p>?</h6>
+            <input type="hidden" id="idUnivHabilitar">
+          </div>
+        </form>
+        <p></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+        <button type="button" id="btnHabilitarUniv" class="btn btn-success">Confirmar</button>
       </div>
     </div>
   </div>

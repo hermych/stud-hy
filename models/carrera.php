@@ -12,10 +12,10 @@ class Carrera
   }
 
   /* ##### METODOS ###### */
-  public function carreraGSave($nombre, $duracion, $grado, $titulo, $descripcion, $perfil, $plan_estudio)
+  public function carreraGSave($univ, $facu, $nombre, $duracion, $grado, $titulo, $descripcion, $perfil, $plan_estudio)
   {
     $result = false;
-    $sql = "INSERT INTO `carreras`(`nombre`, `descripcion`, `grado`, `titulo`, `duracion`, `perfil`, `plan_estudio`) VALUES ('$nombre','$descripcion','$grado','$titulo','$duracion','$perfil', '$plan_estudio')";
+    $sql = "INSERT INTO `carreras`(`id_univ`,`id_facu`,`nombre`, `descripcion`, `grado`, `titulo`, `duracion`, `perfil`, `plan_estudio`) VALUES ('$univ','$facu','$nombre','$descripcion','$grado','$titulo','$duracion','$perfil', '$plan_estudio')";
     $save = $this->db->query($sql);
     if ($save) {
       $result = true;
@@ -24,38 +24,39 @@ class Carrera
   }
   public function carreraGList()
   {
-    $sql_facu = "SELECT * FROM `carreras`";
+    $sql_facu = "SELECT u.nombre as 'univ', f.nombre as 'facu', c.* FROM `carreras` as c, universidades as u, facultades as f WHERE c.id_univ = u.id_universidad AND c.id_facu=f.id_facultad;";
     $listarFacus = $this->db->query($sql_facu);
     $facultades = $listarFacus->fetch_all(MYSQLI_ASSOC);
     return $facultades;
   }
-  public function carreraGEdit($idfacu, $nombre, $descripcion)
+  public function carreraGEdit($id_carrera, $nombre, $duracion, $grado, $titulo, $descripcion, $perfil, $plan_estudio, $id_univ, $id_facu)
   {
-    $sql_edit = "UPDATE `facultades` SET `nombre`='$nombre',`descripcion`='$descripcion' WHERE id_facultad = '$idfacu'";
+    $sql_edit = "UPDATE `carreras` SET `id_univ`='$id_univ', `id_facu`='$id_facu', `nombre`='$nombre',`descripcion`='$descripcion',`grado`='$grado',`titulo`='$titulo',`duracion`='$duracion',`perfil`='$perfil'";
+    if ($plan_estudio != '') {
+      $sql_edit = "$sql_edit ,`plan_estudio`='$plan_estudio' WHERE `id_carrera` = '$id_carrera'";
+    } else {
+      $sql_edit = "$sql_edit WHERE `id_carrera` = '$id_carrera'";
+    }
     $editar = $this->db->query($sql_edit);
     return $editar;
   }
-  public function facarreraelete($idfacu)
+  public function carreraGInhabilitar($id_carrera)
   {
-    /* Verificar si la universidad pertenece a algun registro */
-    $respuesta = [];
-    $sql_buscar = "SELECT * FROM `univ_fac_carr` WHERE id_facultad = $idfacu;";
-    $buscar = $this->db->query($sql_buscar);
-    $busqueda = $buscar->fetch_all(MYSQLI_ASSOC);
-    if (count($busqueda) == 0) {
-      $consulta = "DELETE FROM `facultades` WHERE `id_facultad` = $idfacu";
-      $query = $this->db->query($consulta);
-      if ($query == 1) {
-        $respuesta = [
-          'estado' => 'ok',
-          'mensaje' => 'Se procedio a inhabilitar la universidad'
-        ];
-      }
-    } else {
-      $respuesta = [
-        'estado' => 'failed',
-        'mensaje' => 'No se puede inhabilitar esta facultad, ya que hay registros previos donde participa'
-      ];
+    $respuesta = false;
+    $sql_buscar = "UPDATE `carreras` SET `estado` = 'inactivo' WHERE id_carrera = $id_carrera;";
+    $query = $this->db->query($sql_buscar);
+    if ($query) {
+      $respuesta = true;
+    }
+    return $respuesta;
+  }
+  public function carreraGHabilitar($id_carrera)
+  {
+    $respuesta = false;
+    $sql_buscar = "UPDATE `carreras` SET `estado` = 'activo' WHERE id_carrera = $id_carrera;";
+    $query = $this->db->query($sql_buscar);
+    if ($query) {
+      $respuesta = true;
     }
     return $respuesta;
   }

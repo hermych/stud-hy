@@ -3,10 +3,10 @@
 <!--TABLA -->
 <div class="card">
   <div class="card-header">
-    <h2 class="mt-2">Facultades</h2>
+    <h2 class="mt-2">Planes de Estudio</h2>
   </div>
   <div class="card-body">
-    <button type="button" id="btnModalRegistrarFacu" class="btn btn-primary float-end mb-4" data-toggle="modal" data-target="#modalRegistrarFacultad">
+    <button type="button" id="btnModalRegistrarFacu" class="btn btn-primary float-end mb-4" data-toggle="modal" data-target="#modalRegistrarProspecto">
       Registrar
     </button>
     <!-- Tabla de datos -->
@@ -16,9 +16,6 @@
           <th scope="col">#</th>
           <th scope="col">Universidad</th>
           <th scope="col">Nombre</th>
-          <th scope="col">Decano</th>
-          <th scope="col">Descripcion</th>
-          <th scope="col">Imagen</th>
           <th scope="col">Opciones</th>
       </thead>
       <tbody id="tbody">
@@ -31,11 +28,11 @@
   </div>
 </div>
 <!-- Modal Agregar Facultad-->
-<div class="modal fade" id="modalRegistrarFacultad" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modalRegistrarProspecto" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Registrar Facultad</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">Registrar Prospecto</h5>
       </div>
       <div class="modal-body">
         <div class="row">
@@ -52,24 +49,6 @@
             <div class="form-group">
               <label for="nombre">Nombre</label>
               <input type="email" class="form-control border border-danger" id="nombre" name="nombre">
-            </div>
-          </div>
-          <div class="col-12 mb-2">
-            <div class="form-group">
-              <label for="imagen">Imagen</label>
-              <input type="file" class="form-control border border-danger" id="imagen" name="imagen">
-            </div>
-          </div>
-          <div class="col-12 mb-2">
-            <div class="form-group">
-              <label for="decano">Decano</label>
-              <input type="email" class="form-control border border-warning" id="decano" name="decano">
-            </div>
-          </div>
-          <div class="col-12 mb-2">
-            <div class="form-group">
-              <label for="descripcion">Descripcion</label>
-              <textarea class="form-control border border-danger" id="descripcion" name="descripcion" rows="3"></textarea>
             </div>
           </div>
         </div>
@@ -190,27 +169,6 @@
         <form>
           <div class="form-group">
             <div type="text" id="leer_descripcion" style="text-align: justify;"></div>
-          </div>
-        </form>
-        <p></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Modal Ver descripcion Facultad -->
-<div class="modal fade" id="modaVerImagen" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Imagen</h5>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <img id="imagen_facu" style="width: 100%;">
           </div>
         </form>
         <p></p>

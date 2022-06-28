@@ -421,6 +421,19 @@ $("#departamento").change(function () {
     $("#distrito").val("0");
   }
 });
+$("#departamentoEdit").change(function () {
+  if ($("#departamento").val() != 0) {
+    listarProviciasEdit();
+    $("#provinciaEdit").prop("disabled", false);
+    $("#distritoEdit").prop("disabled", true);
+    $("#distritoEdit").val("0");
+  } else {
+    $("#provinciaEdit").prop("disabled", true);
+    $("#distritoEdit").prop("disabled", true);
+    $("#provinciaEdit").val("0");
+    $("#distritoEdit").val("0");
+  }
+});
 $("#provincia").change(function () {
   if ($("#provincia").val() != 0) {
     listarDistritos();
@@ -513,10 +526,16 @@ $(document).ready(function () {
         },
       },
       {
-        defaultContent: `
-          <button type="button" class="editar btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarUniversidad"><i class="fas fa-edit"></i></button>
-          <button type="button" class="inhabilitar btn btn-danger btn-sm" data-toggle="modal" data-target="#modalInhabilitarUniv"><i class="fas fa-trash-alt"></i></button>
-          `,
+        data: "estado",
+        render: function (data, type, row) {
+          if (row.estado == "activo") {
+            return ` <button type="button" class="editar btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarUniversidad"><i class="fas fa-edit"></i></button>
+          <button type="button" class="inhabilitar btn btn-danger btn-sm" data-toggle="modal" data-target="#modalInhabilitarUniv"><i class="fas fa-trash-alt"></i></button>`;
+          } else {
+            return ` <button type="button" class="editar btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarUniversidad"><i class="fas fa-edit"></i></button>
+          <button type="button" class="habilitar btn btn-success btn-sm" data-toggle="modal" data-target="#modalHabilitarUniv"><i class="fas fa-check-circle"></i></i></button>`;
+          }
+        },
       },
     ],
     language: español,
@@ -682,13 +701,68 @@ $(document).ready(function () {
         });
       },
       success: function (response) {
+        Swal.close();
+        let data = JSON.parse(response);
+        if (data.estado == "ok") {
+          dataTable.ajax.reload();
+          $("#modalInhabilitarUniv").hide();
+          $(".modal-backdrop").remove();
+          Swal.fire({
+            text: data.mensaje,
+            icon: "success",
+          });
+          setTimeout(() => {
+            Swal.close();
+          }, 3000);
+        } else {
+          Swal.fire({
+            text: data.mensaje,
+            icon: "error",
+          });
+          setTimeout(() => {
+            Swal.close();
+          }, 3000);
+        }
+      },
+    });
+  });
+  // Modal habilitar Universidad con datos correspondientes
+  $("#universidadTable tbody").on("click", ".habilitar", function () {
+    let data = dataTable.row($(this).parents()).data();
+    $("#nombreUnivHabilitar").text(data.nombre);
+    $("#idUnivHabilitar").val(data.id_universidad);
+  });
+  // Proceso de habilitar Universidad
+  $("#btnHabilitarUniv").click(function (e) {
+    let formData = new FormData();
+    formData.append("iduniv", $("#idUnivHabilitar").val());
+    window.$.ajax({
+      type: "post",
+      url: "?method=universidadGHabilitar",
+      data: formData,
+      cache: false,
+      processData: false,
+      contentType: false,
+      beforeSend: function () {
+        Swal.fire({
+          allowOutsideClick: false,
+          title: "Cargando",
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading();
+            const b = Swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {}, 300);
+          },
+        });
+      },
+      success: function (response) {
         setTimeout(() => {
           Swal.close();
         }, 2000);
         let data = JSON.parse(response);
         if (data.estado == "ok") {
           dataTable.ajax.reload();
-          "#modalInhabilitarUniv".hide();
+          $("#modalHabilitarUniv").hide();
           $(".modal-backdrop").remove();
           Swal.fire({
             text: data.mensaje,

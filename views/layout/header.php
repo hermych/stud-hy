@@ -16,6 +16,8 @@ if (count($porciones) > 1) {
     $title = 'Gestionar Facultades';
   } elseif ($porciones2[1] == 'carreraGView') {
     $title = 'Gestionar Carreras';
+  } elseif ($porciones2[1] == 'plan_estudioView') {
+    $title = 'Planes de Estudios';
   }
 } else {
   $title = 'Inicio';
@@ -44,33 +46,37 @@ if (count($porciones) > 1) {
   <!-- ############## FONT AWESOME ##############-->
   <script src="https://kit.fontawesome.com/ec57de0117.js" crossorigin="anonymous"></script>
 
-  
-  <!-- links  -->  
+
+  <!-- links  -->
   <link href="../assets/css/librerias/styles_sidebar.css" rel="stylesheet">
 
 </head>
 
 <body>
-<!--1--><div class="d-flex" id="wrapper"> 
-<!--2-->   <div class="border-end bg-dark" id="sidebar-wrapper">
-                   <div class="sidebar-heading border-bottom"> Bootstrap</div>
-                <div class="list-group list-group-flush ">
-                    <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="#!">Dashboard</a>
-                    <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="#!">Shortcuts</a>
-                    <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="#!">Overview</a>
-                    <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="#!">Events</a>
-                    <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="#!">Profile</a>
-                    <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="#!">Status</a>
-                </div>
-<!--2-->   </div>
-<!--3-->   <div id="page-content-wrapper">
-                <!-- Top navigation -->
-                <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                    <div class="container-fluid">
-                        <button class="btn btn-primary" id="sidebarToggle">Toggle Menu</button>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                          <!--
+  <!--1-->
+  <div class="d-flex" id="wrapper">
+    <!--2-->
+    <div class="border-end bg-dark" id="sidebar-wrapper">
+      <div class="sidebar-heading border-bottom"> Bootstrap</div>
+      <div class="list-group list-group-flush ">
+        <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="../controllers/UniversidadController.php?method=universidadGView">G. Universidades</a>
+        <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="../controllers/FacultadController.php?method=facultadGView">G. Facultades</a>
+        <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="../controllers/CarreraController.php?method=carreraGView">G. Carreras</a>
+        <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="../controllers/PlanEstudioController.php?method=plan_estudioView">G. Planes de Estudio</a>
+        <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="#!">Profile</a>
+        <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="#!">Status</a>
+      </div>
+      <!--2-->
+    </div>
+    <!--3-->
+    <div id="page-content-wrapper">
+      <!-- Top navigation -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <div class="container-fluid">
+          <button class="btn btn-primary" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!--
                             <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
                                 <li class="nav-item active"><a class="nav-link" href="#!">Home</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#!">Link</a></li>
@@ -85,12 +91,12 @@ if (count($porciones) > 1) {
                                 </li>
                             </ul> 
                           -->
-                        </div>
-                    </div> 
-<!--4-->        </nav>
-                <!-- Page content-->
-                <div class="container-fluid">
-                   
-                   
-                <!--</div>-->
-          
+          </div>
+        </div>
+        <!--4-->
+      </nav>
+      <!-- Page content-->
+      <div class="container-fluid">
+
+
+        <!--</div>-->

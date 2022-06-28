@@ -244,40 +244,277 @@ function validarInputSoloNumeros(evt) {
     return false;
   }
 }
+$("#btnModalRegistrarFacu").click(() => {
+  window.$.ajax({
+    type: "GET",
+    url: "UniversidadController.php?method=universidadGListActivos",
+    success: function (response) {
+      let universidades = JSON.parse(response);
+      contenido = "<option value='0'>--- Universidad ---</option>";
+      universidades.forEach((depa) => {
+        contenido += `<option value=${depa.id_universidad}>${depa.nombre}</option>`;
+      });
+      $("#univ").html(contenido);
+    },
+  });
+});
+$("#univ").change(function () {
+  if ($("#univ").val() != "0") {
+    $("#univ").removeClass("border border-danger");
+    $("#univ").addClass("border border-success");
+    $("#facu").prop("disabled", false);
+    formData = new FormData();
+    formData.append("id_univ", $("#univ").val());
+    window.$.ajax({
+      type: "post",
+      url: "FacultadController.php?method=facultadGListEspecifico",
+      data: formData,
+      cache: false,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        let facultades = JSON.parse(response);
+        console.log(facultades);
+        contenido = "<option value='0'>--- Facultad ---</option>";
+        facultades.forEach((depa) => {
+          contenido += `<option value=${depa.id_facultad}>${depa.nombre}</option>`;
+        });
+        $("#facu").html(contenido);
+      },
+    });
+  } else {
+    $("#univ").removeClass("border border-success");
+    $("#univ").addClass("border border-danger");
+    $("#facu").removeClass("border border-success");
+    $("#facu").addClass("border border-danger");
+    $("#facu").prop("disabled", true);
+    $("#facu").val("0");
+  }
+});
+$("#facu").change(function () {
+  if ($("#facu").val() != "0") {
+    $("#facu").removeClass("border border-danger");
+    $("#facu").addClass("border border-success");
+  } else {
+    $("#facu").removeClass("border border-success");
+    $("#facu").addClass("border border-danger");
+  }
+});
+$("#nombre").keyup(function () {
+  if ($("#nombre").val().length > 5) {
+    $("#nombre").removeClass("border border-danger");
+    $("#nombre").addClass("border border-success");
+  } else {
+    $("#nombre").removeClass("border border-success");
+    $("#nombre").addClass("border border-danger");
+  }
+});
+$("#duracion").keyup(function () {
+  if ($("#duracion").val().length >= 1) {
+    $("#duracion").removeClass("border border-danger");
+    $("#duracion").addClass("border border-success");
+  } else {
+    $("#duracion").removeClass("border border-success");
+    $("#duracion").addClass("border border-danger");
+  }
+});
+$("#grado").keyup(function () {
+  if ($("#grado").val().length > 5) {
+    $("#grado").removeClass("border border-danger");
+    $("#grado").addClass("border border-success");
+  } else {
+    $("#grado").removeClass("border border-success");
+    $("#grado").addClass("border border-danger");
+  }
+});
+$("#titulo").keyup(function () {
+  if ($("#titulo").val().length > 5) {
+    $("#titulo").removeClass("border border-danger");
+    $("#titulo").addClass("border border-success");
+  } else {
+    $("#titulo").removeClass("border border-success");
+    $("#titulo").addClass("border border-danger");
+  }
+});
+$("#descripcion").keyup(function () {
+  if ($("#descripcion").val().length > 5) {
+    $("#descripcion").removeClass("border border-danger");
+    $("#descripcion").addClass("border border-success");
+  } else {
+    $("#descripcion").removeClass("border border-success");
+    $("#descripcion").addClass("border border-danger");
+  }
+});
+$("#perfil").keyup(function () {
+  if ($("#perfil").val().length > 5) {
+    $("#perfil").removeClass("border border-danger");
+    $("#perfil").addClass("border border-success");
+  } else {
+    $("#perfil").removeClass("border border-success");
+    $("#perfil").addClass("border border-danger");
+  }
+});
+$("#planEstudio").change(function () {
+  if ($("#planEstudio").val() != "") {
+    $("#divPlan").removeClass("border border-warning");
+    $("#divPlan").addClass("border border-success");
+  } else {
+    $("#divPlan").removeClass("border border-success");
+    $("#divPlan").addClass("border border-warning");
+  }
+});
+// editar
+$("#univEdit").change(function () {
+  if ($("#univEdit").val() != "0") {
+    $("#univEdit").removeClass("border border-danger");
+    $("#univEdit").addClass("border border-success");
+  } else {
+    $("#univEdit").removeClass("border border-success");
+    $("#univEdit").addClass("border border-danger");
+  }
+});
+$("#univEdit").change(function () {
+  if ($("#univEdit").val() != "0") {
+    $("#univEdit").removeClass("border border-danger");
+    $("#univEdit").addClass("border border-success");
+    $("#facuEdit").prop("disabled", false);
+    formData = new FormData();
+    formData.append("id_univ", $("#univEdit").val());
+    window.$.ajax({
+      type: "post",
+      url: "FacultadController.php?method=facultadGListEspecifico",
+      data: formData,
+      cache: false,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        let facultades = JSON.parse(response);
+        contenido = "<option value='0' selected>--- Facultad ---</option>";
+        facultades.forEach((depa) => {
+          contenido += `<option value=${depa.id_facultad}>${depa.nombre}</option>`;
+        });
+        $("#facuEdit").html(contenido);
+        $("#facuEdit").removeClass("border border-success");
+        $("#facuEdit").addClass("border border-danger");
+      },
+    });
+  } else {
+    $("#univEdit").removeClass("border border-success");
+    $("#univEdit").addClass("border border-danger");
+    $("#facuEdit").removeClass("border border-success");
+    $("#facuEdit").addClass("border border-danger");
+    $("#facuEdit").prop("disabled", true);
+    $("#facuEdit").val("0");
+  }
+});
+$("#facuEdit").change(function () {
+  if ($("#facuEdit").val() != "0") {
+    $("#facuEdit").removeClass("border border-danger");
+    $("#facuEdit").addClass("border border-success");
+  } else {
+    $("#facuEdit").removeClass("border border-success");
+    $("#facuEdit").addClass("border border-danger");
+  }
+});
+$("#nombreEdit").keyup(function () {
+  if ($("#nombreEdit").val().length > 5) {
+    $("#nombreEdit").removeClass("border border-danger");
+    $("#nombreEdit").addClass("border border-success");
+  } else {
+    $("#nombreEdit").removeClass("border border-success");
+    $("#nombreEdit").addClass("border border-danger");
+  }
+});
+$("#duracionEdit").keyup(function () {
+  if ($("#duracionEdit").val().length >= 1) {
+    $("#duracionEdit").removeClass("border border-danger");
+    $("#duracionEdit").addClass("border border-success");
+  } else {
+    $("#duracionEdit").removeClass("border border-success");
+    $("#duracionEdit").addClass("border border-danger");
+  }
+});
+$("#gradoEdit").keyup(function () {
+  if ($("#gradoEdit").val().length > 5) {
+    $("#gradoEdit").removeClass("border border-danger");
+    $("#gradoEdit").addClass("border border-success");
+  } else {
+    $("#gradoEdit").removeClass("border border-success");
+    $("#gradoEdit").addClass("border border-danger");
+  }
+});
+$("#tituloEdit").keyup(function () {
+  if ($("#tituloEdit").val().length > 5) {
+    $("#tituloEdit").removeClass("border border-danger");
+    $("#tituloEdit").addClass("border border-success");
+  } else {
+    $("#tituloEdit").removeClass("border border-success");
+    $("#tituloEdit").addClass("border border-danger");
+  }
+});
+$("#descripcionEdit").keyup(function () {
+  if ($("#descripcionEdit").val().length > 5) {
+    $("#descripcionEdit").removeClass("border border-danger");
+    $("#descripcionEdit").addClass("border border-success");
+  } else {
+    $("#descripcionEdit").removeClass("border border-success");
+    $("#descripcionEdit").addClass("border border-danger");
+  }
+});
+$("#perfilEdit").keyup(function () {
+  if ($("#perfilEdit").val().length > 5) {
+    $("#perfilEdit").removeClass("border border-danger");
+    $("#perfilEdit").addClass("border border-success");
+  } else {
+    $("#perfilEdit").removeClass("border border-success");
+    $("#perfilEdit").addClass("border border-danger");
+  }
+});
+$("#planEstudioEdit").change(function () {
+  if ($("#planEstudioEdit").val() != "") {
+    $("#divPlanEdit").removeClass("border border-warning");
+    $("#divPlanEdit").addClass("border border-success");
+  } else {
+    $("#divPlanEdit").removeClass("border border-success");
+    $("#divPlanEdit").addClass("border border-warning");
+  }
+});
 // ###############################################
 
-// ********** VALIDAR MODAL REGISTRAR **************
-$("#btnModalRegistrarFacu").click(() => {
-  let nombre = document.getElementById("nombre");
-  let duracion = document.getElementById("duracion");
-  let grado = document.getElementById("grado");
-  let titulo = document.getElementById("titulo");
-  let descripcion = document.getElementById("descripcion");
-  let perfil = document.getElementById("perfil");
-  setInterval(() => {
-    datosArray = [nombre, duracion, grado, titulo, descripcion, perfil];
-    let respuesta = validarDatos(datosArray);
-    if (Object.keys(respuesta).length == 0) {
-      $("#btnGuardar").prop("disabled", false);
-    } else {
-      $("#btnGuardar").prop("disabled", true);
-    }
-  }, 200);
-});
+// ********** VALIDAR BOTON - MODAL - REGISTRAR **************
+setInterval(() => {
+  if (
+    $("#univ").hasClass("border-danger") ||
+    $("#facu").hasClass("border-danger") ||
+    $("#nombre").hasClass("border-danger") ||
+    $("#duracion").hasClass("border-danger") ||
+    $("#grado").hasClass("border-danger") ||
+    $("#titulo").hasClass("border-danger") ||
+    $("#descripcion").hasClass("border-danger") ||
+    $("#perfil").hasClass("border-danger")
+  ) {
+    $("#btnGuarCarrera").prop("disabled", true);
+  } else {
+    $("#btnGuarCarrera").prop("disabled", false);
+  }
+}, 200);
+setInterval(() => {
+  if (
+    $("#univEdit").hasClass("border-danger") ||
+    $("#facuEdit").hasClass("border-danger") ||
+    $("#nombreEdit").hasClass("border-danger") ||
+    $("#duracionEdit").hasClass("border-danger") ||
+    $("#gradoEdit").hasClass("border-danger") ||
+    $("#tituloEdit").hasClass("border-danger") ||
+    $("#descripcionEdit").hasClass("border-danger") ||
+    $("#perfilEdit").hasClass("border-danger")
+  ) {
+    $("#btnEditarCarrera").prop("disabled", true);
+  } else {
+    $("#btnEditarCarrera").prop("disabled", false);
+  }
+}, 200);
 // ********** VALIDAR MODAL EDITAR ***************
-$("#tbody").on("click", ".editar", function () {
-  let nombre = document.getElementById("nombreEdit");
-  let descripcion = document.getElementById("descripcionEdit");
-  datosArray = [nombre, descripcion];
-  setInterval(() => {
-    let respuesta = validarDatos(datosArray);
-    if (Object.keys(respuesta).length == 0) {
-      $("#btnEditar").prop("disabled", false);
-    } else {
-      $("#btnEditar").prop("disabled", true);
-    }
-  }, 200);
-});
 // ######## LLENAR DATA TABLE ############
 $(document).ready(function () {
   // Listar tabla con datos
@@ -288,53 +525,75 @@ $(document).ready(function () {
     },
     columns: [
       { data: "indice" },
+      { data: "univ" },
+      { data: "facu" },
       { data: "nombre" },
+      { data: "grado" },
+      // descripcion
       {
         data: "descripcion",
         render: function (data, type, row) {
           if (row.descripcion != "") {
-            return `<i class="text-info fs-5 fab fa-readme"></i>`;
+            return `<button type="button" class="descripcion btn btn-info btn-sm" data-toggle="modal" data-target="#modalDescripcion"><i class="text-white fs-5 fab fa-readme"></i></button>`;
           }
         },
       },
-      { data: "grado" },
-      { data: "titulo" },
-      { data: "duracion" },
+      // perfil
       {
         data: "perfil",
         render: function (data, type, row) {
           if (row.perfil != "") {
-            return `<i class="text-success fs-5 fas fa-plus-circle"></i>`;
+            return `<button type="button" class="perfil btn btn-success btn-sm" data-toggle="modal" data-target="#modalPerfil"><i class="fs-5 fas fa-plus-circle"></i></button>`;
           }
         },
       },
+      // plan de estudio
       {
         data: "plan_estudio",
         render: function (data, type, row) {
           if (row.plan_estudio != "" && row.plan_estudio != null) {
-            return `<i class="text-success fs-5 fas fa-file-pdf"></i>`;
+            return `<a href="../assets/plan_estudios_pdf/${row.plan_estudio}" target="_blank"><i class="text-success fs-5 fas fa-file-pdf"></i></a>`;
           } else {
             return `<i class="text-danger fs-5 fas fa-times-circle"></i>`;
           }
         },
       },
+      // Opciones
+      // plan de estudio
       {
-        defaultContent: `
-          <button type="button" class="editar btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarCarrera"><i class="fas fa-edit"></i></button>
-          <button type="button" class="inhabilitar btn btn-danger btn-sm" data-toggle="modal" data-target="#modalInhabilitarFacu"><i class="fas fa-trash-alt"></i></button>
-          `,
+        data: "estado",
+        render: function (data, type, row) {
+          if (row.estado == "activo") {
+            return `<button type="button" class="editar btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarCarrera"><i class="fas fa-edit"></i></button>
+          <button type="button" class="inhabilitar btn btn-danger btn-sm" data-toggle="modal" data-target="#modalInhabilitarCarrera"><i class="fas fa-trash-alt"></i></button>`;
+          } else {
+            return `<button type="button" class="editar btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarCarrera"><i class="fas fa-edit"></i></button>
+          <button type="button" class="habilitar btn btn-success btn-sm" data-toggle="modal" data-target="#modalHabilitarCarrera"><i class="fas fa-check-circle"></i></button>`;
+          }
+        },
       },
     ],
     language: español,
   });
-  // Proceso de guardar universidad
-  $("#btnGuardar").click(function () {
-    console.log("hola");
+  // Modal ver descripcion datos correspondientes
+  $("#table tbody").on("click", ".descripcion", function () {
+    let data = dataTable.row($(this).parents()).data();
+    $("#leer_descripcion").text(data.descripcion);
+  });
+  // Modal ver perfil datos correspondientes
+  $("#table tbody").on("click", ".perfil", function () {
+    let data = dataTable.row($(this).parents()).data();
+    $("#leer_perfil").text(data.perfil);
+  });
+  // Proceso de guardar Carrera
+  $("#btnGuarCarrera").click(function () {
     formData = new FormData();
+    formData.append("univ", $("#univ").val());
+    formData.append("facu", $("#facu").val());
     formData.append("nombre", $("#nombre").val().toUpperCase());
     formData.append("duracion", $("#duracion").val());
-    formData.append("grado", $("#grado").val());
-    formData.append("titulo", $("#titulo").val());
+    formData.append("grado", $("#grado").val().toUpperCase());
+    formData.append("titulo", $("#titulo").val().toUpperCase());
     formData.append("descripcion", $("#descripcion").val());
     formData.append("perfil", $("#perfil").val());
     formData.append("planEstudio", $("#planEstudio")[0].files[0]);
@@ -390,24 +649,112 @@ $(document).ready(function () {
       },
     });
   });
-  // Modal editar Universidad con datos correspondientes
+  // Modal editar Carrera con datos correspondientes
   $("#table tbody").on("click", ".editar", function () {
     let data = dataTable.row($(this).parents()).data();
+    window.$.ajax({
+      type: "GET",
+      url: "UniversidadController.php?method=universidadGListActivos",
+      success: function (response) {
+        let universidades = JSON.parse(response);
+        contenido =
+          "<option value='0'>----- SELECCIONE UNIVERSIDAD -----</option>";
+        universidades.forEach((univ) => {
+          contenido += `<option value=${univ.id_universidad}>${univ.nombre}</option>`;
+        });
+        $("#univEdit").html(contenido);
+        if (data.id_univ != "0") {
+          $("#univEdit").val(data.id_univ);
+          $("#univEdit").removeClass("border border-danger");
+          $("#univEdit").addClass("border border-success");
+        } else {
+          $("univEdit").val("0");
+        }
+      },
+    });
+    if (data.nombre != "") {
+      $("#nombreEdit").removeClass("border border-danger");
+      $("#nombreEdit").addClass("border border-success");
+      $("#nombreEdit").val(data.nombre);
+    }
+    if (data.duracion != "") {
+      $("#duracionEdit").removeClass("border border-danger");
+      $("#duracionEdit").addClass("border border-success");
+      $("#duracionEdit").val(data.duracion);
+    }
+    if (data.grado != "") {
+      $("#gradoEdit").removeClass("border border-danger");
+      $("#gradoEdit").addClass("border border-success");
+      $("#gradoEdit").val(data.grado);
+    }
+    if (data.titulo != "") {
+      $("#tituloEdit").removeClass("border border-danger");
+      $("#tituloEdit").addClass("border border-success");
+      $("#tituloEdit").val(data.titulo);
+    }
+    if (data.descripcion != "") {
+      $("#descripcionEdit").removeClass("border border-danger");
+      $("#descripcionEdit").addClass("border border-success");
+      $("#descripcionEdit").val(data.descripcion);
+    }
+    if (data.perfil != "") {
+      $("#perfilEdit").removeClass("border border-danger");
+      $("#perfilEdit").addClass("border border-success");
+      $("#perfilEdit").val(data.perfil);
+    }
+    if (data.plan_estudio != "" && data.plan_estudio != null) {
+      $("#divPlanEdit").removeClass("border border-warning");
+      $("#divPlanEdit").addClass("border border-success");
+      $("#plan_existe").text("(Existe)");
+    } else {
+      $("#divPlanEdit").removeClass("border border-success");
+      $("#divPlanEdit").addClass("border border-warning");
+      $("#plan_existe").text("(No Existe)");
+    }
     $("#id_carrera").val(data.id_carrera);
-    $("#nombreEdit").val(data.nombre);
-    $("#duracionEdit").val(data.duracion);
-    $("#gradoEdit").val(data.grado);
-    $("#tituloEdit").val(data.titulo);
-    $("#descripcionEdit").val(data.descripcion);
-    $("#perfilEdit").val(data.perfil);
-    $("#planEstudioEdit").val(data.plan_estudio);
   });
-  // Proceso de editar universidad
-  $("#btnEditar").click(function () {
+  $("#table tbody").on("click", ".editar", function () {
+    let data = dataTable.row($(this).parents()).data();
     formData = new FormData();
-    formData.append("idfacu", $("#idfacu").val());
+    formData.append("id_univ", data.id_univ);
+    window.$.ajax({
+      type: "post",
+      url: "FacultadController.php?method=facultadGListEspecifico",
+      data: formData,
+      cache: false,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        let facultades = JSON.parse(response);
+        contenido = "<option value='0'>--- Facultad ---</option>";
+        facultades.forEach((depa) => {
+          contenido += `<option value=${depa.id_facultad}>${depa.nombre}</option>`;
+        });
+        $("#facuEdit").html(contenido);
+        if (data.id_facu != "0") {
+          $("#facuEdit").prop("disabled", false);
+          $("#facuEdit").removeClass("border border-danger");
+          $("#facuEdit").addClass("border border-success");
+          $("#facuEdit").val(data.id_facu);
+        } else {
+          $("#facuEdit").val("0");
+        }
+      },
+    });
+  });
+  // Proceso de editar Carrera
+  $("#btnEditarCarrera").click(function () {
+    formData = new FormData();
+    formData.append("id_carrera", $("#id_carrera").val());
+    formData.append("id_univ", $("#univEdit").val());
+    formData.append("id_facu", $("#facuEdit").val());
     formData.append("nombre", $("#nombreEdit").val().toUpperCase());
+    formData.append("duracion", $("#duracionEdit").val());
+    formData.append("grado", $("#gradoEdit").val().toUpperCase());
+    formData.append("titulo", $("#tituloEdit").val().toUpperCase());
     formData.append("descripcion", $("#descripcionEdit").val());
+    formData.append("perfil", $("#perfilEdit").val());
+    formData.append("planEstudio", $("#planEstudioEdit")[0].files[0]);
     window.$.ajax({
       type: "post",
       url: "?method=carreraGEdit",
@@ -432,7 +779,12 @@ $(document).ready(function () {
         let data = JSON.parse(response);
         if (data.estado == "ok") {
           dataTable.ajax.reload();
-          $("#modalEditarFacultad").hide();
+          $("#planEstudioEdit").val("");
+          $("#planEstudioEdit").removeClass("border border-success");
+          $("#planEstudioEdit").removeClass("border border-danger");
+          $("#planEstudioEdit").removeClass("border border-warning");
+          $("#planEstudioEdit").addClass("border border-warning");
+          $("#modalEditarCarrera").hide();
           $(".modal-backdrop").remove();
           Swal.fire({
             text: data.mensaje,
@@ -440,7 +792,7 @@ $(document).ready(function () {
           });
           setTimeout(() => {
             Swal.close();
-          }, 1200);
+          }, 2500);
         } else {
           Swal.fire({
             text: data.mensaje,
@@ -448,24 +800,30 @@ $(document).ready(function () {
           });
           setTimeout(() => {
             Swal.close();
-          }, 1200);
+          }, 2500);
         }
       },
     });
   });
-  // Modal Inhabilitar Universidad con datos correspondientes
+  // Modal Inhabilitar Carrera con datos correspondientes
   $("#table tbody").on("click", ".inhabilitar", function () {
     let data = dataTable.row($(this).parents()).data();
-    $("#nombreFacuInhabilitar").text(data.nombre);
-    $("#idFacuInhabilitar").val(data.id_facultad);
+    $("#nombreCarreraInhabilitar").text(data.nombre);
+    $("#idCarreraInhabilitar").val(data.id_carrera);
   });
-  // Proceso de inhabilitar Universidad
+  // Modal habilitar Carrera con datos correspondientes
+  $("#table tbody").on("click", ".habilitar", function () {
+    let data = dataTable.row($(this).parents()).data();
+    $("#nombreCarreraHabilitar").text(data.nombre);
+    $("#idCarreraHabilitar").val(data.id_carrera);
+  });
+  // Proceso de inhabilitar Carrera
   $("#btnInhabilitar").click(function (e) {
     let formData = new FormData();
-    formData.append("idfacu", $("#idFacuInhabilitar").val());
+    formData.append("id_carrera", $("#idCarreraInhabilitar").val());
     window.$.ajax({
       type: "post",
-      url: "?method=facultadGDelete",
+      url: "?method=carreraGInhabilitar",
       data: formData,
       cache: false,
       processData: false,
@@ -483,13 +841,11 @@ $(document).ready(function () {
         });
       },
       success: function (response) {
-        setTimeout(() => {
-          Swal.close();
-        }, 2000);
+        Swal.close();
         let data = JSON.parse(response);
         if (data.estado == "ok") {
           dataTable.ajax.reload();
-          $("#modalInhabilitarFacu").hide();
+          $("#modalInhabilitarCarrera").hide();
           $(".modal-backdrop").remove();
           Swal.fire({
             text: data.mensaje,
@@ -497,7 +853,7 @@ $(document).ready(function () {
           });
           setTimeout(() => {
             Swal.close();
-          }, 1200);
+          }, 2500);
         } else {
           Swal.fire({
             text: data.mensaje,
@@ -505,7 +861,56 @@ $(document).ready(function () {
           });
           setTimeout(() => {
             Swal.close();
-          }, 1200);
+          }, 2500);
+        }
+      },
+    });
+  });
+  // Proceso de habilitar Carrera
+  $("#btnHabilitar").click(function (e) {
+    let formData = new FormData();
+    formData.append("id_carrera", $("#idCarreraHabilitar").val());
+    window.$.ajax({
+      type: "post",
+      url: "?method=carreraGHabilitar",
+      data: formData,
+      cache: false,
+      processData: false,
+      contentType: false,
+      beforeSend: function () {
+        Swal.fire({
+          allowOutsideClick: false,
+          title: "Cargando",
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading();
+            const b = Swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {}, 300);
+          },
+        });
+      },
+      success: function (response) {
+        Swal.close();
+        let data = JSON.parse(response);
+        if (data.estado == "ok") {
+          dataTable.ajax.reload();
+          $("#modalHabilitarCarrera").hide();
+          $(".modal-backdrop").remove();
+          Swal.fire({
+            text: data.mensaje,
+            icon: "success",
+          });
+          setTimeout(() => {
+            Swal.close();
+          }, 2500);
+        } else {
+          Swal.fire({
+            text: data.mensaje,
+            icon: "error",
+          });
+          setTimeout(() => {
+            Swal.close();
+          }, 2500);
         }
       },
     });

@@ -46,14 +46,38 @@ class FacultadController
   public function facultadGSave()
   {
     $respuesta = [];
+    // proceso de guardar imagenes
+    if (isset($_FILES['imagen'])) {
+      $file = $_FILES['imagen'];
+      $filename = $file['name'];
+      $mimetype = $file['type'];
+      $allowed_type = array("image/jpg", "image/jpeg", "image/png");
+
+      if (!in_array($mimetype, $allowed_type)) {
+        $respuesta = [
+          'estado' => 'failed',
+          'mensaje' => 'por favor, selecciona una imagen'
+        ];
+        return json_encode($respuesta);
+      }
+      // crear directorio upload
+      if (!is_dir("../assets/image/fotosFacu")) {
+        mkdir("../assets/image/fotosFacu", 0777);
+      }
+      // mover archivo a upload
+      $rename = substr(sha1(rand(1, 999)), 0, -30) . "_" . $filename;
+      $rutaLogo = "../assets/image/fotosFacu/" . $rename;
+      move_uploaded_file($file['tmp_name'], $rutaLogo);
+    }
     // proceso de guardar datos
     if (isset($_POST)) {
+      $univ = isset($_POST['univ']) ? $_POST['univ'] : false;
       $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : false;
-
+      $decano = isset($_POST['decano']) ? $_POST['decano'] : false;
       $descripcion = isset($_POST['descripcion']) ? $_POST['descripcion'] : false;
-      if ($nombre && $descripcion) {
+      if ($nombre && $descripcion && $univ) {
         $facuObj = new Facultad();
-        $registrar = $facuObj->facultadGSave($nombre, $descripcion);
+        $registrar = $facuObj->facultadGSave($nombre, $descripcion, $univ, $decano, $rename);
         if ($registrar == 1) {
           $respuesta = [
             'estado' => 'ok',
@@ -82,14 +106,40 @@ class FacultadController
   public function facultadGEdit()
   {
     $respuesta = [];
+    // proceso de guardar imagenes
+    if (isset($_FILES['imagen'])) {
+      $file = $_FILES['imagen'];
+      $filename = $file['name'];
+      $mimetype = $file['type'];
+      $allowed_type = array("image/jpg", "image/jpeg", "image/png");
+
+      if (!in_array($mimetype, $allowed_type)) {
+        $respuesta = [
+          'estado' => 'failed',
+          'mensaje' => 'por favor, selecciona una imagen'
+        ];
+        return json_encode($respuesta);
+      }
+      // crear directorio upload
+      if (!is_dir("../assets/image/fotosFacu")) {
+        mkdir("../assets/image/fotosFacu", 0777);
+      }
+      // mover archivo a upload
+      $rename = substr(sha1(rand(1, 999)), 0, -30) . "_" . $filename;
+      $rutaLogo = "../assets/image/fotosFacu/" . $rename;
+      move_uploaded_file($file['tmp_name'], $rutaLogo);
+    }
     // proceso de guardar datos
     if (isset($_POST)) {
+      $iduniv = isset($_POST['univ']) ? $_POST['univ'] : false;
       $idfacu = isset($_POST['idfacu']) ? $_POST['idfacu'] : false;
       $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : false;
+      $decano = isset($_POST['decano']) ? $_POST['decano'] : 'Decano Pendiente';
+      $rename = isset($rename) ? $rename : '';
       $descripcion = isset($_POST['descripcion']) ? $_POST['descripcion'] : false;
-      if ($idfacu && $nombre && $descripcion) {
+      if ($idfacu && $nombre && $descripcion && $idfacu && $iduniv) {
         $univObj = new Facultad();
-        $registrar = $univObj->facultadGEdit($idfacu, $nombre, $descripcion);
+        $registrar = $univObj->facultadGEdit($iduniv, $idfacu, $nombre, $decano, $descripcion, $rename);
         if ($registrar == 1) {
           $respuesta = [
             'estado' => 'ok',
@@ -128,6 +178,12 @@ class FacultadController
             'estado' => 'ok',
             'mensaje' => 'Inahbilitacion realizada correctamente'
           ];
+        } elseif ($registrar['estado'] == 'failed') {
+          $mensaje = $registrar['mensaje'];
+          $respuesta = [
+            'estado' => 'failed',
+            'mensaje' => "$mensaje"
+          ];
         } else {
           $respuesta = [
             'estado' => 'failed',
@@ -144,6 +200,71 @@ class FacultadController
       $respuesta = [
         'estado' => 'failed',
         'mensaje' => 'Error al enviar los datos al servidor'
+      ];
+    }
+    return json_encode($respuesta);
+  }
+  public function facultadGHabilitar()
+  {
+    // proceso de guardar datos
+    if (isset($_POST)) {
+      $idfacu = isset($_POST['idfacu']) ? $_POST['idfacu'] : false;
+      if ($idfacu) {
+        $univObj = new Facultad();
+        $registrar = $univObj->facultadGHabilitar($idfacu);
+        if ($registrar == '1') {
+          $respuesta = [
+            'estado' => 'ok',
+            'mensaje' => 'Se habilito la facultad correctamente'
+          ];
+        } else {
+          $respuesta = [
+            'estado' => 'failed',
+            'mensaje' => 'Error en la consulta a la base de datos'
+          ];
+        }
+      } else {
+        $respuesta = [
+          'estado' => 'failed',
+          'mensaje' => 'Faltan enviar datos, por favor verifique'
+        ];
+      }
+    } else {
+      $respuesta = [
+        'estado' => 'failed',
+        'mensaje' => 'Error al enviar los datos al servidor'
+      ];
+    }
+    return json_encode($respuesta);
+  }
+  public function facultadGListEspecifico()
+  {
+    $respuesta = [];
+    if (isset($_POST)) {
+      $id_univ = isset($_POST['id_univ']) ? $_POST['id_univ'] : false;
+      if ($id_univ) {
+        $facuObj = new Facultad();
+        $facultades = $facuObj->facultadGListEspecifico($id_univ);
+        if (count($facultades) > 0) {
+          $respuesta = $facultades;
+        } else {
+          $respuesta = [
+            0 => [
+              'id_facultad' => '0',
+              'nombre' => 'No hay facultades para esta universidad'
+            ]
+          ];
+        }
+      } else {
+        $respuesta = [
+          'estado' => 'failed',
+          'mensaje' => 'No se esta enviando los datos necesarios'
+        ];
+      }
+    } else {
+      $respuesta = [
+        'estado' => 'failed',
+        'mensaje' => 'Erro al intentar conectar con el controlador'
       ];
     }
     return json_encode($respuesta);
@@ -169,6 +290,10 @@ if ($_GET['method'] == 'facultadView') {
   echo ($facultad->facultadGEdit());
 } elseif ($_GET['method'] == 'facultadGDelete') {
   echo ($facultad->facultadGDelete());
+} elseif ($_GET['method'] == 'facultadGHabilitar') {
+  echo ($facultad->facultadGHabilitar());
+} elseif ($_GET['method'] == 'facultadGListEspecifico') {
+  echo ($facultad->facultadGListEspecifico());
 }
 /* else {
   if ($_GET['method'] == 'login') {
