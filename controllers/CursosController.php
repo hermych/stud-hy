@@ -1,37 +1,31 @@
 <?php
 session_start();
-require_once "../models/plan_estudio.php";
+require_once "../models/cursos.php";
 //require_once "../helpers/utils.php";
 
-class ProspectoController
+class CursosController
 {
   /**Vistas */
-  public function prospectoView()
-  {
-    require_once "../views/prospecto/index.php";
-  }
-  // public function facuEspecifico($id)
-  // {
-  // }
   // Vistas de gestion
-  public function prospectoGView()
+  public function cursosGView()
   {
-    require_once "../views/plan_estudio/plan_estudio.php";
+    require_once "../views/cursos/cursosG.php";
   }
   /**Metodos */
-  public function prospectoGSave()
+  public function cursosGSave()
   {
     // proceso de guardar datos
     if (isset($_POST)) {
       $univ = isset($_POST['univ']) ? $_POST['univ'] : false;
+      $prosp = isset($_POST['prosp']) ? $_POST['prosp'] : false;
       $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : false;
-      if ($nombre && $univ) {
-        $facuObj = new Prospecto();
-        $registrar = $facuObj->prospectoGSave($nombre, $univ);
+      if ($nombre && $univ && $prosp) {
+        $facuObj = new Cursos();
+        $registrar = $facuObj->cursosGSave($nombre, $univ, $prosp);
         if ($registrar == 1) {
           $respuesta = [
             'estado' => 'ok',
-            'mensaje' => 'Prospecto registrada correctamente'
+            'mensaje' => 'Cursos registrada correctamente'
           ];
         } else {
           $respuesta = [
@@ -53,21 +47,21 @@ class ProspectoController
     }
     return json_encode($respuesta);
   }
-  public function prospectoGList()
+  public function cursosGList()
   {
     $indice = 1;
     $respuesta = [];
-    $facuObj = new Prospecto();
-    $prospectoes = $facuObj->prospectoGList();
-    if (count($prospectoes) == 0) {
+    $facuObj = new Cursos();
+    $cursoses = $facuObj->cursosGList();
+    if (count($cursoses) == 0) {
       $respuesta = [
         'indice' => '-',
-        'id_prospecto' => '',
+        'id_cursos' => '',
         'nombre' => 'No hay datos',
         'descripcion' => 'No hay datos',
       ];
     } else {
-      foreach ($prospectoes as $key => $value) {
+      foreach ($cursoses as $key => $value) {
         $json['data'][$key] = $value;
       }
       for ($i = 0; $i < count($json['data']); $i++) {
@@ -78,47 +72,17 @@ class ProspectoController
     }
     return json_encode($respuesta);
   }
-  public function prospectoUnivList()
-  {
-    $respuesta = [];
-    if (isset($_POST)) {
-      $iduniv = isset($_POST['iduniv']) ? $_POST['iduniv'] : false;
-      if ($iduniv) {
-        $prospObj = new Prospecto();
-        $prospectos = $prospObj->prospectoUnivList($iduniv);
-        if ($prospectos) {
-          $respuesta = $prospectos;
-        } else {
-          $respuesta = [
-            'estado' => 'failed',
-            'mensaje' => 'Error al realizar la consulta a la bd'
-          ];
-        }
-      } else {
-        $respuesta = [
-          'estado' => 'failed',
-          'mensaje' => 'No se estan recibiendo los datos'
-        ];
-      }
-    } else {
-      $respuesta = [
-        'estado' => 'failed',
-        'mensaje' => 'Error de comunicacion con el servidor'
-      ];
-    }
-    return json_encode($respuesta);
-  }
-  public function prospectoGEdit()
+  public function cursosGEdit()
   {
     $respuesta = [];
     // proceso de guardar datos
     if (isset($_POST)) {
       $iduniv = isset($_POST['univ']) ? $_POST['univ'] : false;
-      $idpros = isset($_POST['idpros']) ? $_POST['idpros'] : false;
+      $idcurso = isset($_POST['idcurso']) ? $_POST['idcurso'] : false;
       $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : false;
-      if ($idpros && $nombre && $iduniv) {
-        $univObj = new Prospecto();
-        $registrar = $univObj->prospectoGEdit($iduniv, $idpros, $nombre);
+      if ($idcurso && $nombre && $iduniv) {
+        $univObj = new Cursos();
+        $registrar = $univObj->cursosGEdit($iduniv, $idcurso, $nombre);
         if ($registrar == 1) {
           $respuesta = [
             'estado' => 'ok',
@@ -144,14 +108,14 @@ class ProspectoController
     }
     return json_encode($respuesta);
   }
-  public function prospectoGInhabilitar()
+  public function cursosGInhabilitar()
   {
     // proceso de guardar datos
     if (isset($_POST)) {
-      $idpros = isset($_POST['idpros']) ? $_POST['idpros'] : false;
-      if ($idpros) {
-        $univObj = new Prospecto();
-        $registrar = $univObj->prospectoGDelete($idpros);
+      $idcurso = isset($_POST['idcurso']) ? $_POST['idcurso'] : false;
+      if ($idcurso) {
+        $univObj = new Cursos();
+        $registrar = $univObj->cursosGDelete($idcurso);
         if ($registrar) {
           $respuesta = [
             'estado' => 'ok',
@@ -177,18 +141,18 @@ class ProspectoController
     }
     return json_encode($respuesta);
   }
-  public function prospectoGHabilitar()
+  public function cursosGHabilitar()
   {
     // proceso de guardar datos
     if (isset($_POST)) {
-      $idpros = isset($_POST['idpros']) ? $_POST['idpros'] : false;
-      if ($idpros) {
-        $univObj = new Prospecto();
-        $registrar = $univObj->prospectoGHabilitar($idpros);
+      $idcurso = isset($_POST['idcurso']) ? $_POST['idcurso'] : false;
+      if ($idcurso) {
+        $univObj = new Cursos();
+        $registrar = $univObj->cursosGHabilitar($idcurso);
         if ($registrar == '1') {
           $respuesta = [
             'estado' => 'ok',
-            'mensaje' => 'Se habilito la prospecto correctamente'
+            'mensaje' => 'Se habilito la cursos correctamente'
           ];
         } else {
           $respuesta = [
@@ -210,65 +174,61 @@ class ProspectoController
     }
     return json_encode($respuesta);
   }
-  public function prospectoGListEspecifico()
+  public function cursoProspList()
   {
     $respuesta = [];
     if (isset($_POST)) {
-      $id_univ = isset($_POST['id_univ']) ? $_POST['id_univ'] : false;
-      if ($id_univ) {
-        $facuObj = new Prospecto();
-        $prospectoes = $facuObj->prospectoGListEspecifico($id_univ);
-        if (count($prospectoes) > 0) {
-          $respuesta = $prospectoes;
+      $idpros = isset($_POST['idpros']) ? $_POST['idpros'] : false;
+      if ($idpros) {
+        $prospObj = new Cursos();
+        $prospectos = $prospObj->cursoProspList($idpros);
+        if ($prospectos) {
+          $respuesta = $prospectos;
         } else {
           $respuesta = [
-            0 => [
-              'id_prospecto' => '0',
-              'nombre' => 'No hay prospectoes para esta universidad'
-            ]
+            'estado' => 'failed',
+            'mensaje' => 'Error al realizar la consulta a la bd'
           ];
         }
       } else {
         $respuesta = [
           'estado' => 'failed',
-          'mensaje' => 'No se esta enviando los datos necesarios'
+          'mensaje' => 'No se estan recibiendo los datos'
         ];
       }
     } else {
       $respuesta = [
         'estado' => 'failed',
-        'mensaje' => 'Erro al intentar conectar con el controlador'
+        'mensaje' => 'Error de comunicacion con el servidor'
       ];
     }
     return json_encode($respuesta);
   }
 }
 
-$prospecto = new ProspectoController();
+$cursos = new CursosController();
 
-if ($_GET['method'] == 'prospectoView') {
+if ($_GET['method'] == 'cursosView') {
   // if (isset($_GET['id'])) {
   //   $id = $_GET['id'];
-  //   echo ($prospecto->facuEspecifico($id));
+  //   echo ($cursos->facuEspecifico($id));
   // } else {
-  //   echo ($prospecto->prospectoView());
+  //   echo ($cursos->cursosView());
   // }
-} elseif ($_GET['method'] == 'plan_estudioView') {
-  echo ($prospecto->prospectoGView());
-} elseif ($_GET['method'] == 'prospectoGList') {
-  echo ($prospecto->prospectoGList());
-} elseif ($_GET['method'] == 'prospectoGSave') {
-  echo ($prospecto->prospectoGSave());
-} elseif ($_GET['method'] == 'prospectoGEdit') {
-  echo ($prospecto->prospectoGEdit());
-} elseif ($_GET['method'] == 'prospectoGInhabilitar') {
-  echo ($prospecto->prospectoGInhabilitar());
-} elseif ($_GET['method'] == 'prospectoGHabilitar') {
-  echo ($prospecto->prospectoGHabilitar());
-} elseif ($_GET['method'] == 'prospectoGListEspecifico') {
-  echo ($prospecto->prospectoGListEspecifico());
-} elseif ($_GET['method'] == 'prospectoUnivList') {
-  echo ($prospecto->prospectoUnivList());
+} elseif ($_GET['method'] == 'cursosGView') {
+  echo ($cursos->cursosGView());
+} elseif ($_GET['method'] == 'cursosGList') {
+  echo ($cursos->cursosGList());
+} elseif ($_GET['method'] == 'cursosGSave') {
+  echo ($cursos->cursosGSave());
+} elseif ($_GET['method'] == 'cursosGEdit') {
+  echo ($cursos->cursosGEdit());
+} elseif ($_GET['method'] == 'cursosGInhabilitar') {
+  echo ($cursos->cursosGInhabilitar());
+} elseif ($_GET['method'] == 'cursosGHabilitar') {
+  echo ($cursos->cursosGHabilitar());
+} elseif ($_GET['method'] == 'cursoProspList') {
+  echo ($cursos->cursoProspList());
 }
 /* else {
   if ($_GET['method'] == 'login') {

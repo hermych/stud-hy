@@ -17,7 +17,11 @@ if (count($porciones) > 1) {
   } elseif ($porciones2[1] == 'carreraGView') {
     $title = 'Gestionar Carreras';
   } elseif ($porciones2[1] == 'plan_estudioView') {
-    $title = 'Planes de Estudios';
+    $title = 'Prospectos';
+  } elseif ($porciones2[1] == 'cursosGView') {
+    $title = 'Cursos';
+  } elseif ($porciones2[1] == 'temasGView') {
+    $title = 'Temas por Curso';
   }
 } else {
   $title = 'Inicio';
@@ -63,8 +67,8 @@ if (count($porciones) > 1) {
         <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="../controllers/FacultadController.php?method=facultadGView">G. Facultades</a>
         <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="../controllers/CarreraController.php?method=carreraGView">G. Carreras</a>
         <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="../controllers/PlanEstudioController.php?method=plan_estudioView">G. Planes de Estudio</a>
-        <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="#!">Profile</a>
-        <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="#!">Status</a>
+        <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="../controllers/CursosController.php?method=cursosGView">G. Cursos</a>
+        <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="../controllers/TemasController.php?method=temasGView">G. Temas</a>
       </div>
       <!--2-->
     </div>

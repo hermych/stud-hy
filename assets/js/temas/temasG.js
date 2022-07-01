@@ -231,7 +231,7 @@ function validarInputSoloNumeros(evt) {
   }
 }
 // ********** VALIDAR MODAL REGISTRAR **************
-$("#btnModalRegistrarProspecto").click(() => {
+$("#btnModalRegistrarTema").click(() => {
   window.$.ajax({
     type: "GET",
     url: "UniversidadController.php?method=universidadGList",
@@ -247,9 +247,97 @@ $("#btnModalRegistrarProspecto").click(() => {
     },
   });
   $("#univ").removeClass("border border-success");
-  $("#nombre").removeClass("border border-success");
   $("#univ").addClass("border border-danger");
+  $("#prospecto").removeClass("border border-success");
+  $("#prospecto").addClass("border border-danger");
+  $("#nombre").removeClass("border border-success");
   $("#nombre").addClass("border border-danger");
+});
+$("#univ").change(function () {
+  if ($("#univ").val() != "0") {
+    $("#univ").removeClass("border border-danger");
+    $("#univ").addClass("border border-success");
+    formData = new FormData();
+    formData.append("iduniv", $("#univ").val());
+    window.$.ajax({
+      type: "post",
+      url: "PlanEstudioController.php?method=prospectoUnivList",
+      data: formData,
+      cache: false,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        Swal.close();
+        let prospectos = JSON.parse(response);
+        contenido =
+          "<option value='0'>----- SELECCIONE PROSPECTO -----</option>";
+        prospectos.forEach((prosp) => {
+          contenido += `<option value=${prosp.id_prospecto}>${prosp.nombre}</option>`;
+        });
+        $("#prospecto").html(contenido);
+        $("#prospecto").prop("disabled", false);
+        $("#curso").prop("disabled", true);
+        $("#curso").removeClass("border border-success");
+        $("#curso").addClass("border border-danger");
+        $("#prospecto").removeClass("border border-success");
+        $("#prospecto").addClass("border border-danger");
+        $("#curso").val("0");
+      },
+    });
+  } else {
+    $("#univ").removeClass("border border-success");
+    $("#univ").addClass("border border-danger");
+    $("#prospecto").removeClass("border border-success");
+    $("#prospecto").addClass("border border-danger");
+    $("#curso").removeClass("border border-success");
+    $("#curso").addClass("border border-danger");
+  }
+});
+$("#prospecto").change(function () {
+  if ($("#prospecto").val() != "0") {
+    $("#prospecto").removeClass("border border-danger");
+    $("#prospecto").addClass("border border-success");
+    formData = new FormData();
+    formData.append("idpros", $("#prospecto").val());
+    window.$.ajax({
+      type: "post",
+      url: "CursosController.php?method=cursoProspList",
+      data: formData,
+      cache: false,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        console.log(response);
+        Swal.close();
+        let cursos = JSON.parse(response);
+        contenido = "<option value='0'>----- SELECCIONE CURSO -----</option>";
+        cursos.forEach((prosp) => {
+          contenido += `<option value=${prosp.id_prospecto}>${prosp.nombre}</option>`;
+        });
+        $("#curso").html(contenido);
+        $("#curso").prop("disabled", false);
+        $("#curso").removeClass("border border-success");
+        $("#curso").addClass("border border-danger");
+        $("#curso").val("0");
+      },
+    });
+  } else {
+    $("#prospecto").removeClass("border border-success");
+    $("#prospecto").addClass("border border-danger");
+    $("#curso").removeClass("border border-success");
+    $("#curso").addClass("border border-danger");
+    $("#curso").val("0");
+    $("#curso").prop("disabled", true);
+  }
+});
+$("#curso").change(function () {
+  if ($("#curso").val() != "0") {
+    $("#curso").removeClass("border border-danger");
+    $("#curso").addClass("border border-success");
+  } else {
+    $("#curso").removeClass("border border-success");
+    $("#curso").addClass("border border-danger");
+  }
 });
 $("#nombre").keyup(function () {
   if ($("#nombre").val().length > 5) {
@@ -258,15 +346,6 @@ $("#nombre").keyup(function () {
   } else {
     $("#nombre").removeClass("border border-success");
     $("#nombre").addClass("border border-danger");
-  }
-});
-$("#univ").change(function () {
-  if ($("#univ").val() != "0") {
-    $("#univ").removeClass("border border-danger");
-    $("#univ").addClass("border border-success");
-  } else {
-    $("#univ").removeClass("border border-success");
-    $("#univ").addClass("border border-danger");
   }
 });
 $("#nombre_edit").keyup(function () {
@@ -290,12 +369,14 @@ $("#univ_edit").change(function () {
 // validar boton de guardar
 setInterval(() => {
   if (
-    $("#nombre").hasClass("border-danger") ||
-    $("#univ").hasClass("border-danger")
+    $("#univ").hasClass("border-danger") ||
+    $("#prospecto").hasClass("border-danger") ||
+    $("#curso").hasClass("border-danger") ||
+    $("#nombre").hasClass("border-danger")
   ) {
-    $("#btnGuardarProspecto").prop("disabled", true);
+    $("#btnGuardarTema").prop("disabled", true);
   } else {
-    $("#btnGuardarProspecto").prop("disabled", false);
+    $("#btnGuardarTema").prop("disabled", false);
   }
 }, 200);
 // validar boton de editar
@@ -304,9 +385,9 @@ setInterval(() => {
     $("#nombre_edit").hasClass("border-danger") ||
     $("#univ_edit").hasClass("border-danger")
   ) {
-    $("#btnEditarProspecto").prop("disabled", true);
+    $("#btnEditarTema").prop("disabled", true);
   } else {
-    $("#btnEditarProspecto").prop("disabled", false);
+    $("#btnEditarTema").prop("disabled", false);
   }
 }, 200);
 // ######## LLENAR DATA TABLE ############
@@ -314,36 +395,39 @@ $(document).ready(function () {
   // Listar tabla con datos
   let dataTable = $("#table").DataTable({
     ajax: {
-      url: "?method=prospectoGList",
+      url: "?method=temasGList",
       method: "GET",
     },
     columns: [
       { data: "indice" },
-      { data: "univ" },
+      { data: "universidad" },
+      { data: "prospecto" },
       { data: "nombre" },
       {
         data: "estado",
         render: function (data, type, row) {
           if (row.estado == "activo") {
-            return `<button type="button" class="editar btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarProspecto"><i class="fas fa-edit"></i></button>
-          <button type="button" class="inhabilitar btn btn-danger btn-sm" data-toggle="modal" data-target="#modalInhabilitarProspecto"><i class="fas fa-trash-alt"></i></button>`;
+            return `<button type="button" class="editar btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarTema"><i class="fas fa-edit"></i></button>
+          <button type="button" class="inhabilitar btn btn-danger btn-sm" data-toggle="modal" data-target="#modalInhabilitarTema"><i class="fas fa-trash-alt"></i></button>`;
           } else {
-            return `<button type="button" class="editar btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarProspecto"><i class="fas fa-edit"></i></button>
-          <button type="button" class="habilitar btn btn-success btn-sm" data-toggle="modal" data-target="#modalHabilitarProspecto"><i class="fas fa-check-circle"></i></button>`;
+            return `<button type="button" class="editar btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarTema"><i class="fas fa-edit"></i></button>
+          <button type="button" class="habilitar btn btn-success btn-sm" data-toggle="modal" data-target="#modalHabilitarTema"><i class="fas fa-check-circle"></i></button>`;
           }
         },
       },
     ],
     language: español,
   });
-  // Proceso de guardar Prospecto
-  $("#btnGuardarProspecto").click(function () {
+  // Proceso de guardar Tema
+  $("#btnGuardarTema").click(function () {
     formData = new FormData();
-    formData.append("nombre", $("#nombre").val().toUpperCase());
     formData.append("univ", $("#univ").val());
+    formData.append("prosp", $("#prospecto").val());
+    formData.append("curso", $("#curso").val());
+    formData.append("nombre", $("#nombre").val().toUpperCase());
     window.$.ajax({
       type: "post",
-      url: "?method=prospectoGSave",
+      url: "?method=temasGSave",
       data: formData,
       cache: false,
       processData: false,
@@ -367,7 +451,7 @@ $(document).ready(function () {
           dataTable.ajax.reload();
           $("#nombre").val("");
           $("#univ").val("0");
-          $("#modalRegistrarProspecto").hide();
+          $("#modalRegistrarTema").hide();
           $(".modal-backdrop").remove();
           Swal.fire({
             text: data.mensaje,
@@ -388,7 +472,7 @@ $(document).ready(function () {
       },
     });
   });
-  // Modal editar Prospecto con datos correspondientes
+  // Modal editar Tema con datos correspondientes
   $("#table tbody").on("click", ".editar", function () {
     let data = dataTable.row($(this).parents()).data();
     window.$.ajax({
@@ -422,17 +506,17 @@ $(document).ready(function () {
       $("#nombre_edit").removeClass("border border-success");
       $("#nombre_edit").addClass("border border-danger");
     }
-    $("#idpros").val(data.id_prospecto);
+    $("#idcurso").val(data.id_curso);
   });
   // Proceso de editar facultad
-  $("#btnEditarProspecto").click(function () {
+  $("#btnEditarTema").click(function () {
     formData = new FormData();
-    formData.append("idpros", $("#idpros").val());
+    formData.append("idcurso", $("#idcurso").val());
     formData.append("univ", $("#univ_edit").val());
     formData.append("nombre", $("#nombre_edit").val().toUpperCase());
     window.$.ajax({
       type: "post",
-      url: "?method=prospectoGEdit",
+      url: "?method=temasGEdit",
       data: formData,
       cache: false,
       processData: false,
@@ -454,7 +538,7 @@ $(document).ready(function () {
         let data = JSON.parse(response);
         if (data.estado == "ok") {
           dataTable.ajax.reload();
-          $("#modalEditarProspecto").hide();
+          $("#modalEditarTema").hide();
           $(".modal-backdrop").remove();
           Swal.fire({
             text: data.mensaje,
@@ -475,25 +559,19 @@ $(document).ready(function () {
       },
     });
   });
-  // Modal Inhabilitar Prospecto con datos correspondientes
+  // Modal Inhabilitar Tema con datos correspondientes
   $("#table tbody").on("click", ".inhabilitar", function () {
     let data = dataTable.row($(this).parents()).data();
-    $("#nombreProspectoInhabilitar").text(data.nombre);
-    $("#idProspectoInhabilitar").val(data.id_prospecto);
+    $("#nombreTemaInhabilitar").text(data.nombre);
+    $("#idTemaInhabilitar").val(data.id_curso);
   });
-  // Modal habilitar Prospecto con datos correspondientes
-  $("#table tbody").on("click", ".habilitar", function () {
-    let data = dataTable.row($(this).parents()).data();
-    $("#nombreProspectoHabilitar").text(data.nombre);
-    $("#idProspectoHabilitar").val(data.id_prospecto);
-  });
-  // Proceso de inhabilitar Prospecto
+  // Proceso de inhabilitar Tema
   $("#btnInhabilitar").click(function (e) {
     let formData = new FormData();
-    formData.append("idpros", $("#idProspectoInhabilitar").val());
+    formData.append("idcurso", $("#idTemaInhabilitar").val());
     window.$.ajax({
       type: "post",
-      url: "?method=prospectoGInhabilitar",
+      url: "?method=temasGInhabilitar",
       data: formData,
       cache: false,
       processData: false,
@@ -515,7 +593,7 @@ $(document).ready(function () {
         let data = JSON.parse(response);
         if (data.estado == "ok") {
           dataTable.ajax.reload();
-          $("#modalInhabilitarProspecto").hide();
+          $("#modalInhabilitarTema").hide();
           $(".modal-backdrop").remove();
           Swal.fire({
             text: data.mensaje,
@@ -525,7 +603,7 @@ $(document).ready(function () {
             Swal.close();
           }, 2000);
         } else {
-          $("#modalInhabilitarProspecto").hide();
+          $("#modalInhabilitarTema").hide();
           $(".modal-backdrop").remove();
           Swal.fire({
             text: data.mensaje,
@@ -538,13 +616,19 @@ $(document).ready(function () {
       },
     });
   });
-  // Proceso de inhabilitar Prospecto
+  // Modal habilitar Tema con datos correspondientes
+  $("#table tbody").on("click", ".habilitar", function () {
+    let data = dataTable.row($(this).parents()).data();
+    $("#nombreTemaHabilitar").text(data.nombre);
+    $("#idTemaHabilitar").val(data.id_curso);
+  });
+  // Proceso de inhabilitar Tema
   $("#btnHabilitar").click(function (e) {
     let formData = new FormData();
-    formData.append("idpros", $("#idProspectoHabilitar").val());
+    formData.append("idcurso", $("#idTemaHabilitar").val());
     window.$.ajax({
       type: "post",
-      url: "?method=prospectoGHabilitar",
+      url: "?method=temasGHabilitar",
       data: formData,
       cache: false,
       processData: false,
@@ -566,7 +650,7 @@ $(document).ready(function () {
         let data = JSON.parse(response);
         if (data.estado == "ok") {
           dataTable.ajax.reload();
-          $("#modalHabilitarProspecto").hide();
+          $("#modalHabilitarTema").hide();
           $(".modal-backdrop").remove();
           Swal.fire({
             text: data.mensaje,
@@ -576,7 +660,7 @@ $(document).ready(function () {
             Swal.close();
           }, 2000);
         } else {
-          $("#modalHabilitarProspecto").hide();
+          $("#modalHabilitarTema").hide();
           $(".modal-backdrop").remove();
           Swal.fire({
             text: data.mensaje,

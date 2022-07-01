@@ -3,10 +3,10 @@
 <!--TABLA -->
 <div class="card">
   <div class="card-header">
-    <h2 class="mt-2">Prospectos de Admision</h2>
+    <h2 class="mt-2">Temas</h2>
   </div>
   <div class="card-body">
-    <button type="button" id="btnModalRegistrarProspecto" class="btn btn-primary float-end mb-4" data-toggle="modal" data-target="#modalRegistrarProspecto">
+    <button type="button" id="btnModalRegistrarTema" class="btn btn-primary float-end mb-4" data-toggle="modal" data-target="#modalRegistrarTema">
       Registrar
     </button>
     <!-- Tabla de datos -->
@@ -15,6 +15,8 @@
         <tr>
           <th scope="col">#</th>
           <th scope="col">Universidad</th>
+          <th scope="col">Prospecto</th>
+          <th scope="col">Tema</th>
           <th scope="col">Nombre</th>
           <th scope="col">Opciones</th>
       </thead>
@@ -27,12 +29,12 @@
     <?php echo "<b>" . date("d") . " de " . date("M") . " de " . date("Y"); ?>
   </div>
 </div>
-<!-- Modal Agregar Prospecto-->
-<div class="modal fade" id="modalRegistrarProspecto" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- Modal Agregar Tema-->
+<div class="modal fade" id="modalRegistrarTema" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Registrar Prospecto</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">Registrar Tema</h5>
       </div>
       <div class="modal-body">
         <div class="row">
@@ -40,22 +42,36 @@
             <div class="form-group">
               <label for="univ">Universidad</label>
               <select class="form-select border border-danger" id="univ" name="univ">
-                <option value="1">Universidad Nacional Mayor de San Marcos</option>
-                <option value="2">Universidad Catolica del Peru</option>
               </select>
             </div>
           </div>
           <div class="col-12 mb-2">
             <div class="form-group">
-              <label for="nombre">Nombre</label>
+              <label for="prospecto">Prospecto</label>
+              <select class="form-select border border-danger" id="prospecto" name="prospecto" disabled>
+                <option value="0">--- Seleccione Prospecto ---</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-12 mb-2">
+            <div class="form-group">
+              <label for="curso">Curso</label>
+              <select class="form-select border border-danger" id="curso" name="curso" disabled>
+                <option value="0">--- Seleccione Curso ---</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-12 mb-2">
+            <div class="form-group">
+              <label for="nombre">Nombre del Tema</label>
               <input type="email" class="form-control border border-danger" id="nombre" name="nombre">
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" id="btnCerrarModalFacu" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-        <button type="button" id="btnGuardarProspecto" class="btn btn-success" disabled>Guardar</button>
+        <button type="button" id="btnCerrarModalTema" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+        <button type="button" id="btnGuardarTema" class="btn btn-success" disabled>Guardar</button>
       </div>
     </div>
   </div>
@@ -80,31 +96,31 @@
             <div class="form-group">
               <label for="nombre_edit">Nombre</label>
               <input type="text" class="form-control border border-danger" id="nombre_edit" name="nombre_edit">
-              <input type="hidden" id="idpros" name="idpros">
+              <input type="hidden" id="idcurso" name="idcurso">
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-        <button type="button" id="btnEditarProspecto" class="btn btn-success" disabled>Editar</button>
+        <button type="button" id="btnEditarTema" class="btn btn-success" disabled>Editar</button>
       </div>
     </div>
   </div>
 </div>
 <!-- Modal Inhabilitar Prospecto -->
-<div class="modal fade" id="modalInhabilitarProspecto" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modalInhabilitarTema" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Inhabilitar Prospecto</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Inhabilitar Tema</h5>
       </div>
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <h6>¿Estas por inhabilitar a: <p class="d-inline fw-bolder" id="nombreProspectoInhabilitar"></p>?
+            <h6>¿Estas por inhabilitar a: <p class="d-inline fw-bolder" id="nombreTemaInhabilitar"></p>?
             </h6>
-            <input type="hidden" id="idProspectoInhabilitar">
+            <input type="hidden" id="idTemaInhabilitar">
           </div>
         </form>
         <p></p>
@@ -117,7 +133,7 @@
   </div>
 </div>
 <!-- Modal habilitad Prospecto -->
-<div class="modal fade" id="modalHabilitarProspecto" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modalHabilitarTema" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -126,9 +142,9 @@
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <h6>¿Estas por habilitar a: <p class="d-inline fw-bolder" id="nombreProspectoHabilitar"></p>?
+            <h6>¿Estas por habilitar a: <p class="d-inline fw-bolder" id="nombreTemaHabilitar"></p>?
             </h6>
-            <input type="hidden" id="idProspectoHabilitar">
+            <input type="hidden" id="idTemaHabilitar">
           </div>
         </form>
         <p></p>

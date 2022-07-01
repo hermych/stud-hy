@@ -231,7 +231,7 @@ function validarInputSoloNumeros(evt) {
   }
 }
 // ********** VALIDAR MODAL REGISTRAR **************
-$("#btnModalRegistrarProspecto").click(() => {
+$("#btnModalRegistrarCurso").click(() => {
   window.$.ajax({
     type: "GET",
     url: "UniversidadController.php?method=universidadGList",
@@ -247,8 +247,10 @@ $("#btnModalRegistrarProspecto").click(() => {
     },
   });
   $("#univ").removeClass("border border-success");
-  $("#nombre").removeClass("border border-success");
   $("#univ").addClass("border border-danger");
+  $("#prospecto").removeClass("border border-success");
+  $("#prospecto").addClass("border border-danger");
+  $("#nombre").removeClass("border border-success");
   $("#nombre").addClass("border border-danger");
 });
 $("#nombre").keyup(function () {
@@ -264,9 +266,39 @@ $("#univ").change(function () {
   if ($("#univ").val() != "0") {
     $("#univ").removeClass("border border-danger");
     $("#univ").addClass("border border-success");
+    formData = new FormData();
+    formData.append("iduniv", $("#univ").val());
+    window.$.ajax({
+      type: "post",
+      url: "PlanEstudioController.php?method=prospectoUnivList",
+      data: formData,
+      cache: false,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        Swal.close();
+        let prospectos = JSON.parse(response);
+        contenido =
+          "<option value='0'>----- SELECCIONE PROSPECTO -----</option>";
+        prospectos.forEach((prosp) => {
+          contenido += `<option value=${prosp.id_prospecto}>${prosp.nombre}</option>`;
+        });
+        $("#prospecto").html(contenido);
+        $("#prospecto").prop("disabled", false);
+      },
+    });
   } else {
     $("#univ").removeClass("border border-success");
     $("#univ").addClass("border border-danger");
+  }
+});
+$("#prospecto").change(function () {
+  if ($("#prospecto").val() != "0") {
+    $("#prospecto").removeClass("border border-danger");
+    $("#prospecto").addClass("border border-success");
+  } else {
+    $("#prospecto").removeClass("border border-success");
+    $("#prospecto").addClass("border border-danger");
   }
 });
 $("#nombre_edit").keyup(function () {
@@ -291,11 +323,12 @@ $("#univ_edit").change(function () {
 setInterval(() => {
   if (
     $("#nombre").hasClass("border-danger") ||
-    $("#univ").hasClass("border-danger")
+    $("#univ").hasClass("border-danger") ||
+    $("#prospecto").hasClass("border-danger")
   ) {
-    $("#btnGuardarProspecto").prop("disabled", true);
+    $("#btnGuardarCurso").prop("disabled", true);
   } else {
-    $("#btnGuardarProspecto").prop("disabled", false);
+    $("#btnGuardarCurso").prop("disabled", false);
   }
 }, 200);
 // validar boton de editar
@@ -304,9 +337,9 @@ setInterval(() => {
     $("#nombre_edit").hasClass("border-danger") ||
     $("#univ_edit").hasClass("border-danger")
   ) {
-    $("#btnEditarProspecto").prop("disabled", true);
+    $("#btnEditarCurso").prop("disabled", true);
   } else {
-    $("#btnEditarProspecto").prop("disabled", false);
+    $("#btnEditarCurso").prop("disabled", false);
   }
 }, 200);
 // ######## LLENAR DATA TABLE ############
@@ -314,36 +347,38 @@ $(document).ready(function () {
   // Listar tabla con datos
   let dataTable = $("#table").DataTable({
     ajax: {
-      url: "?method=prospectoGList",
+      url: "?method=cursosGList",
       method: "GET",
     },
     columns: [
       { data: "indice" },
-      { data: "univ" },
+      { data: "universidad" },
+      { data: "prospecto" },
       { data: "nombre" },
       {
         data: "estado",
         render: function (data, type, row) {
           if (row.estado == "activo") {
-            return `<button type="button" class="editar btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarProspecto"><i class="fas fa-edit"></i></button>
-          <button type="button" class="inhabilitar btn btn-danger btn-sm" data-toggle="modal" data-target="#modalInhabilitarProspecto"><i class="fas fa-trash-alt"></i></button>`;
+            return `<button type="button" class="editar btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarCurso"><i class="fas fa-edit"></i></button>
+          <button type="button" class="inhabilitar btn btn-danger btn-sm" data-toggle="modal" data-target="#modalInhabilitarCurso"><i class="fas fa-trash-alt"></i></button>`;
           } else {
-            return `<button type="button" class="editar btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarProspecto"><i class="fas fa-edit"></i></button>
-          <button type="button" class="habilitar btn btn-success btn-sm" data-toggle="modal" data-target="#modalHabilitarProspecto"><i class="fas fa-check-circle"></i></button>`;
+            return `<button type="button" class="editar btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarCurso"><i class="fas fa-edit"></i></button>
+          <button type="button" class="habilitar btn btn-success btn-sm" data-toggle="modal" data-target="#modalHabilitarCurso"><i class="fas fa-check-circle"></i></button>`;
           }
         },
       },
     ],
     language: español,
   });
-  // Proceso de guardar Prospecto
-  $("#btnGuardarProspecto").click(function () {
+  // Proceso de guardar Curso
+  $("#btnGuardarCurso").click(function () {
     formData = new FormData();
     formData.append("nombre", $("#nombre").val().toUpperCase());
     formData.append("univ", $("#univ").val());
+    formData.append("prosp", $("#prospecto").val());
     window.$.ajax({
       type: "post",
-      url: "?method=prospectoGSave",
+      url: "?method=cursosGSave",
       data: formData,
       cache: false,
       processData: false,
@@ -367,7 +402,7 @@ $(document).ready(function () {
           dataTable.ajax.reload();
           $("#nombre").val("");
           $("#univ").val("0");
-          $("#modalRegistrarProspecto").hide();
+          $("#modalRegistrarCurso").hide();
           $(".modal-backdrop").remove();
           Swal.fire({
             text: data.mensaje,
@@ -388,7 +423,7 @@ $(document).ready(function () {
       },
     });
   });
-  // Modal editar Prospecto con datos correspondientes
+  // Modal editar Curso con datos correspondientes
   $("#table tbody").on("click", ".editar", function () {
     let data = dataTable.row($(this).parents()).data();
     window.$.ajax({
@@ -422,17 +457,17 @@ $(document).ready(function () {
       $("#nombre_edit").removeClass("border border-success");
       $("#nombre_edit").addClass("border border-danger");
     }
-    $("#idpros").val(data.id_prospecto);
+    $("#idcurso").val(data.id_curso);
   });
   // Proceso de editar facultad
-  $("#btnEditarProspecto").click(function () {
+  $("#btnEditarCurso").click(function () {
     formData = new FormData();
-    formData.append("idpros", $("#idpros").val());
+    formData.append("idcurso", $("#idcurso").val());
     formData.append("univ", $("#univ_edit").val());
     formData.append("nombre", $("#nombre_edit").val().toUpperCase());
     window.$.ajax({
       type: "post",
-      url: "?method=prospectoGEdit",
+      url: "?method=cursosGEdit",
       data: formData,
       cache: false,
       processData: false,
@@ -454,7 +489,7 @@ $(document).ready(function () {
         let data = JSON.parse(response);
         if (data.estado == "ok") {
           dataTable.ajax.reload();
-          $("#modalEditarProspecto").hide();
+          $("#modalEditarCurso").hide();
           $(".modal-backdrop").remove();
           Swal.fire({
             text: data.mensaje,
@@ -475,25 +510,19 @@ $(document).ready(function () {
       },
     });
   });
-  // Modal Inhabilitar Prospecto con datos correspondientes
+  // Modal Inhabilitar Curso con datos correspondientes
   $("#table tbody").on("click", ".inhabilitar", function () {
     let data = dataTable.row($(this).parents()).data();
-    $("#nombreProspectoInhabilitar").text(data.nombre);
-    $("#idProspectoInhabilitar").val(data.id_prospecto);
+    $("#nombreCursoInhabilitar").text(data.nombre);
+    $("#idCursoInhabilitar").val(data.id_curso);
   });
-  // Modal habilitar Prospecto con datos correspondientes
-  $("#table tbody").on("click", ".habilitar", function () {
-    let data = dataTable.row($(this).parents()).data();
-    $("#nombreProspectoHabilitar").text(data.nombre);
-    $("#idProspectoHabilitar").val(data.id_prospecto);
-  });
-  // Proceso de inhabilitar Prospecto
+  // Proceso de inhabilitar Curso
   $("#btnInhabilitar").click(function (e) {
     let formData = new FormData();
-    formData.append("idpros", $("#idProspectoInhabilitar").val());
+    formData.append("idcurso", $("#idCursoInhabilitar").val());
     window.$.ajax({
       type: "post",
-      url: "?method=prospectoGInhabilitar",
+      url: "?method=cursosGInhabilitar",
       data: formData,
       cache: false,
       processData: false,
@@ -515,7 +544,7 @@ $(document).ready(function () {
         let data = JSON.parse(response);
         if (data.estado == "ok") {
           dataTable.ajax.reload();
-          $("#modalInhabilitarProspecto").hide();
+          $("#modalInhabilitarCurso").hide();
           $(".modal-backdrop").remove();
           Swal.fire({
             text: data.mensaje,
@@ -525,7 +554,7 @@ $(document).ready(function () {
             Swal.close();
           }, 2000);
         } else {
-          $("#modalInhabilitarProspecto").hide();
+          $("#modalInhabilitarCurso").hide();
           $(".modal-backdrop").remove();
           Swal.fire({
             text: data.mensaje,
@@ -538,13 +567,19 @@ $(document).ready(function () {
       },
     });
   });
-  // Proceso de inhabilitar Prospecto
+  // Modal habilitar Curso con datos correspondientes
+  $("#table tbody").on("click", ".habilitar", function () {
+    let data = dataTable.row($(this).parents()).data();
+    $("#nombreCursoHabilitar").text(data.nombre);
+    $("#idCursoHabilitar").val(data.id_curso);
+  });
+  // Proceso de inhabilitar Curso
   $("#btnHabilitar").click(function (e) {
     let formData = new FormData();
-    formData.append("idpros", $("#idProspectoHabilitar").val());
+    formData.append("idcurso", $("#idCursoHabilitar").val());
     window.$.ajax({
       type: "post",
-      url: "?method=prospectoGHabilitar",
+      url: "?method=cursosGHabilitar",
       data: formData,
       cache: false,
       processData: false,
@@ -566,7 +601,7 @@ $(document).ready(function () {
         let data = JSON.parse(response);
         if (data.estado == "ok") {
           dataTable.ajax.reload();
-          $("#modalHabilitarProspecto").hide();
+          $("#modalHabilitarCurso").hide();
           $(".modal-backdrop").remove();
           Swal.fire({
             text: data.mensaje,
@@ -576,7 +611,7 @@ $(document).ready(function () {
             Swal.close();
           }, 2000);
         } else {
-          $("#modalHabilitarProspecto").hide();
+          $("#modalHabilitarCurso").hide();
           $(".modal-backdrop").remove();
           Swal.fire({
             text: data.mensaje,

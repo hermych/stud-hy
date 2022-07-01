@@ -33,6 +33,12 @@
         } elseif ($porciones2[1] == 'plan_estudioView') {
             $script = '<script src="../assets/js/plan_estudio/plan_estudio.js"></script>';
             echo $script;
+        } elseif ($porciones2[1] == 'cursosGView') {
+            $script = '<script src="../assets/js/cursos/cursosG.js"></script>';
+            echo $script;
+        } elseif ($porciones2[1] == 'temasGView') {
+            $script = '<script src="../assets/js/temas/temasG.js"></script>';
+            echo $script;
         }
     }
     ?>
