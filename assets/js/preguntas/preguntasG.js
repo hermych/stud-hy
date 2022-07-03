@@ -231,6 +231,7 @@ function validarInputSoloNumeros(evt) {
   }
 }
 // ********** VALIDAR MODAL REGISTRAR **************
+// ---------> Guardar guardar guardar <----------
 $("#btnModalRegistrarPreg").click(() => {
   window.$.ajax({
     type: "GET",
@@ -327,26 +328,142 @@ $("#prospecto").change(function () {
     $("#curso").addClass("border border-danger");
     $("#curso").val("0");
     $("#curso").prop("disabled", true);
+    $("#tema").removeClass("border border-success");
+    $("#tema").addClass("border border-danger");
+    $("#tema").prop("disabled", true);
+    $("#tema").val("0");
   }
 });
 $("#curso").change(function () {
   if ($("#curso").val() != "0") {
     $("#curso").removeClass("border border-danger");
     $("#curso").addClass("border border-success");
+    formData = new FormData();
+    formData.append("iduniv", $("#univ").val());
+    formData.append("idpros", $("#prospecto").val());
+    formData.append("idcurso", $("#curso").val());
+    window.$.ajax({
+      type: "post",
+      url: "TemasController.php?method=temaCursoList",
+      data: formData,
+      cache: false,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        Swal.close();
+        let temas = JSON.parse(response);
+        contenido = "<option value='0'>----- SELECCIONE TEMA -----</option>";
+        temas.forEach((tema) => {
+          contenido += `<option value=${tema.id_tema}>${tema.nombre}</option>`;
+        });
+        $("#tema").html(contenido);
+        $("#tema").prop("disabled", false);
+        $("#tema").removeClass("border border-success");
+        $("#tema").addClass("border border-danger");
+        $("#tema").val("0");
+      },
+    });
   } else {
     $("#curso").removeClass("border border-success");
     $("#curso").addClass("border border-danger");
+    $("#tema").prop("disabled", true);
+    $("#tema").removeClass("border border-success");
+    $("#tema").addClass("border border-danger");
+    $("#tema").val("0");
   }
 });
-$("#nombre").keyup(function () {
-  if ($("#nombre").val().length > 5) {
-    $("#nombre").removeClass("border border-danger");
-    $("#nombre").addClass("border border-success");
+$("#tema").change(function () {
+  if ($("#tema").val() != "0") {
+    $("#tema").removeClass("border border-danger");
+    $("#tema").addClass("border border-success");
   } else {
-    $("#nombre").removeClass("border border-success");
-    $("#nombre").addClass("border border-danger");
+    $("#tema").removeClass("border border-success");
+    $("#tema").addClass("border border-danger");
   }
 });
+$("#pregunta").keyup(function () {
+  if ($("#pregunta").val().length > 10) {
+    $("#pregunta").removeClass("border border-danger");
+    $("#pregunta").addClass("border border-success");
+  } else {
+    $("#pregunta").removeClass("border border-success");
+    $("#pregunta").addClass("border border-danger");
+  }
+});
+$("#img_ref").change(function () {
+  if ($("#img_ref").val() != "") {
+    $("#img_ref").removeClass("border border-warning");
+    $("#img_ref").addClass("border border-success");
+  } else {
+    $("#img_ref").removeClass("border border-success");
+    $("#img_ref").addClass("border border-warning");
+  }
+});
+$("#respuesta").keyup(function () {
+  if ($("#respuesta").val().length > 5) {
+    $("#respuesta").removeClass("border border-danger");
+    $("#respuesta").addClass("border border-success");
+  } else {
+    $("#respuesta").removeClass("border border-success");
+    $("#respuesta").addClass("border border-danger");
+  }
+});
+$("#rptaf_1").keyup(function () {
+  if ($("#rptaf_1").val().length > 5) {
+    $("#rptaf_1").removeClass("border border-danger");
+    $("#rptaf_1").addClass("border border-success");
+  } else {
+    $("#rptaf_1").removeClass("border border-success");
+    $("#rptaf_1").addClass("border border-danger");
+  }
+});
+$("#rptaf_2").keyup(function () {
+  if ($("#rptaf_2").val().length > 5) {
+    $("#rptaf_2").removeClass("border border-danger");
+    $("#rptaf_2").addClass("border border-success");
+  } else {
+    $("#rptaf_2").removeClass("border border-success");
+    $("#rptaf_2").addClass("border border-danger");
+  }
+});
+$("#rptaf_3").keyup(function () {
+  if ($("#rptaf_3").val().length > 5) {
+    $("#rptaf_3").removeClass("border border-danger");
+    $("#rptaf_3").addClass("border border-success");
+  } else {
+    $("#rptaf_3").removeClass("border border-success");
+    $("#rptaf_3").addClass("border border-danger");
+  }
+});
+$("#rptaf_4").keyup(function () {
+  if ($("#rptaf_4").val().length > 5) {
+    $("#rptaf_4").removeClass("border border-danger");
+    $("#rptaf_4").addClass("border border-success");
+  } else {
+    $("#rptaf_4").removeClass("border border-success");
+    $("#rptaf_4").addClass("border border-danger");
+  }
+});
+// validar boton de guardar
+setInterval(() => {
+  if (
+    $("#univ").hasClass("border-danger") ||
+    $("#prospecto").hasClass("border-danger") ||
+    $("#curso").hasClass("border-danger") ||
+    $("#tema").hasClass("border-danger") ||
+    $("#pregunta").hasClass("border-danger") ||
+    $("#respuesta").hasClass("border-danger") ||
+    $("#rptaf_1").hasClass("border-danger") ||
+    $("#rptaf_2").hasClass("border-danger") ||
+    $("#rptaf_3").hasClass("border-danger") ||
+    $("#rptaf_4").hasClass("border-danger")
+  ) {
+    $("#btnGuardarPreg").prop("disabled", true);
+  } else {
+    $("#btnGuardarPreg").prop("disabled", false);
+  }
+}, 200);
+// -----> Editar editar editar <-------
 $("#nombre_edit").keyup(function () {
   if ($("#nombre_edit").val().length > 5) {
     $("#nombre_edit").removeClass("border border-danger");
@@ -383,19 +500,7 @@ $("#cursoEdit").change(function () {
     $("#cursoEdit").addClass("border border-danger");
   }
 });
-// validar boton de guardar
-setInterval(() => {
-  if (
-    $("#univ").hasClass("border-danger") ||
-    $("#prospecto").hasClass("border-danger") ||
-    $("#curso").hasClass("border-danger") ||
-    $("#nombre").hasClass("border-danger")
-  ) {
-    $("#btnGuardarTema").prop("disabled", true);
-  } else {
-    $("#btnGuardarTema").prop("disabled", false);
-  }
-}, 200);
+
 // validar boton de editar
 setInterval(() => {
   if (
@@ -439,15 +544,22 @@ $(document).ready(function () {
     language: español,
   });
   // Proceso de guardar Tema
-  $("#btnGuardarTema").click(function () {
+  $("#btnGuardarPreg").click(function () {
     formData = new FormData();
     formData.append("univ", $("#univ").val());
     formData.append("prosp", $("#prospecto").val());
     formData.append("curso", $("#curso").val());
-    formData.append("nombre", $("#nombre").val().toUpperCase());
+    formData.append("tema", $("#tema").val());
+    formData.append("pregunta", $("#pregunta").val());
+    formData.append("respuesta", $("#respuesta").val());
+    formData.append("rptaf_1", $("#rptaf_1").val());
+    formData.append("rptaf_2", $("#rptaf_2").val());
+    formData.append("rptaf_3", $("#rptaf_3").val());
+    formData.append("rptaf_4", $("#rptaf_4").val());
+    formData.append("imagen", $("#img_ref")[0].files[0]);
     window.$.ajax({
       type: "post",
-      url: "?method=temasGSave",
+      url: "?method=preguntasGSave",
       data: formData,
       cache: false,
       processData: false,

@@ -56,13 +56,26 @@ class Temas
     }
     return $respuesta;
   }
-  /*
-  public function temasGListEspecifico($iduniv)
+  public function temaCursoList($iduniv, $idpros, $idcurso)
   {
-    $sql_facu = "SELECT id_facultad, nombre from  facultades WHERE id_univ = $iduniv";
-    $listarFacus = $this->db->query($sql_facu);
-    $facultades = $listarFacus->fetch_all(MYSQLI_ASSOC);
-    return $facultades;
+    $respuesta = [];
+    $sql_prosp = "SELECT * FROM `temas` WHERE id_univ = '$iduniv' AND id_prosp = '$idpros' AND id_curso = '$idcurso';";
+    $listarProspectos = $this->db->query($sql_prosp);
+    $prospectos = $listarProspectos->fetch_all(MYSQLI_ASSOC);
+    if (count($prospectos) != 0) {
+      $respuesta = $prospectos;
+    } else {
+      $respuesta = [
+        0 => [
+          "id_tema" =>  "0",
+          "id_univ" => "",
+          "id_prosp" => "",
+          "id_curso" => "",
+          "nombre" => "No existen temas registrados para este curso",
+          "estado" => ""
+        ]
+      ];
+    }
+    return $respuesta;
   }
-  */
 }

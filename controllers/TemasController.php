@@ -177,6 +177,38 @@ class TemasController
     }
     return json_encode($respuesta);
   }
+  public function temaCursoList()
+  {
+    $respuesta = [];
+    if (isset($_POST)) {
+      $iduniv = isset($_POST['iduniv']) ? $_POST['iduniv'] : false;
+      $idpros = isset($_POST['idpros']) ? $_POST['idpros'] : false;
+      $idcurso = isset($_POST['idcurso']) ? $_POST['idcurso'] : false;
+      if ($iduniv && $idpros && $idcurso) {
+        $prospObj = new Temas();
+        $prospectos = $prospObj->temaCursoList($iduniv, $idpros, $idcurso);
+        if ($prospectos) {
+          $respuesta = $prospectos;
+        } else {
+          $respuesta = [
+            'estado' => 'failed',
+            'mensaje' => 'Error al realizar la consulta a la bd'
+          ];
+        }
+      } else {
+        $respuesta = [
+          'estado' => 'failed',
+          'mensaje' => 'No se estan recibiendo los datos'
+        ];
+      }
+    } else {
+      $respuesta = [
+        'estado' => 'failed',
+        'mensaje' => 'Error de comunicacion con el servidor'
+      ];
+    }
+    return json_encode($respuesta);
+  }
 }
 
 $temas = new TemasController();
@@ -200,6 +232,8 @@ if ($_GET['method'] == 'temasView') {
   echo ($temas->temasGInhabilitar());
 } elseif ($_GET['method'] == 'temasGHabilitar') {
   echo ($temas->temasGHabilitar());
+} elseif ($_GET['method'] == 'temaCursoList') {
+  echo ($temas->temaCursoList());
 }
 /* else {
   if ($_GET['method'] == 'login') {

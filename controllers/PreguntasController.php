@@ -14,15 +14,45 @@ class PreguntasController
   /**Metodos */
   public function preguntasGSave()
   {
+    $respuesta = [];
+    // proceso de guardar imagenes
+    if (isset($_FILES['imagen'])) {
+      $file = $_FILES['imagen'];
+      $filename = $file['name'];
+      $mimetype = $file['type'];
+      $allowed_type = array("image/jpg", "image/jpeg", "image/png");
+
+      if (!in_array($mimetype, $allowed_type)) {
+        $respuesta = [
+          'estado' => 'failed',
+          'mensaje' => 'por favor, selecciona una imagen'
+        ];
+        return json_encode($respuesta);
+      }
+      // crear directorio upload
+      if (!is_dir("../assets/image/fotosPreg")) {
+        mkdir("../assets/image/fotosPreg", 0777);
+      }
+      // mover archivo a upload
+      $rename = substr(sha1(rand(1, 999)), 0, -30) . "_" . $filename;
+      $rutaLogo = "../assets/image/fotosPreg/" . $rename;
+      move_uploaded_file($file['tmp_name'], $rutaLogo);
+    }
     // proceso de guardar datos
     if (isset($_POST)) {
       $univ = isset($_POST['univ']) ? $_POST['univ'] : false;
       $prosp = isset($_POST['prosp']) ? $_POST['prosp'] : false;
       $curso = isset($_POST['curso']) ? $_POST['curso'] : false;
-      $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : false;
-      if ($nombre && $univ && $prosp && $curso) {
-        $facuObj = new Preguntas();
-        $registrar = $facuObj->preguntasGSave($nombre, $univ, $prosp, $curso);
+      $tema = isset($_POST['tema']) ? $_POST['tema'] : false;
+      $pregunta = isset($_POST['pregunta']) ? $_POST['pregunta'] : false;
+      $respuesta = isset($_POST['respuesta']) ? $_POST['respuesta'] : false;
+      $rptaf_1 = isset($_POST['rptaf_1']) ? $_POST['rptaf_1'] : false;
+      $rptaf_2 = isset($_POST['rptaf_2']) ? $_POST['rptaf_2'] : false;
+      $rptaf_3 = isset($_POST['rptaf_3']) ? $_POST['rptaf_3'] : false;
+      $rptaf_4 = isset($_POST['rptaf_4']) ? $_POST['rptaf_4'] : false;
+      if ($univ && $prosp && $curso && $tema && $pregunta && $respuesta && $rptaf_1 && $rptaf_2 && $rptaf_3 && $rptaf_4) {
+        $pregObj = new Preguntas();
+        $registrar = $pregObj->preguntasGSave($univ, $prosp, $curso, $tema, $pregunta, $respuesta, $rptaf_1, $rptaf_2, $rptaf_3, $rptaf_4);
         if ($registrar == 1) {
           $respuesta = [
             'estado' => 'ok',

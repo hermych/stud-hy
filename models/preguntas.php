@@ -12,7 +12,7 @@ class Preguntas
   }
 
   /* ##### METODOS ###### */
-  public function preguntasGSave($nombre, $univ, $prosp, $curso)
+  public function preguntasGSave($univ, $prosp, $curso, $tema, $pregunta, $respuesta, $rptaf_1, $rptaf_2, $rptaf_3, $rptaf_4)
   {
     $result = false;
     $sql = "INSERT INTO `preguntas`(`id_univ`, `id_prosp`, `id_curso`,`nombre`) VALUES ('$univ','$prosp','$curso','$nombre')";
