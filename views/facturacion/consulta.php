@@ -6,7 +6,7 @@
 	  </div>
 	  <div class="card-body">
 	    
-	    <!-- Tabla de datos -->
+	    <!--  Tabla de datos -->
 	    <table id="table" class="display table table-hover text-center mb-4 table-responsive" style="width: 100%;">
 		      <thead style="text-align-last: center;">
 		        <tr>
@@ -26,7 +26,6 @@
 	  </div>
 	</div>
 <!--
-
 	<div class="modal fade" id="modalRegistrarCurso" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered">
 	    <div class="modal-content">
