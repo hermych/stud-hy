@@ -39,6 +39,9 @@
         } elseif ($porciones2[1] == 'temasGView') {
             $script = '<script src="../assets/js/temas/temasG.js"></script>';
             echo $script;
+        } elseif ($porciones2[1] == 'preguntasGView') {
+            $script = '<script src="../assets/js/preguntas/preguntasG.js"></script>';
+            echo $script;
         }
     }
     ?>

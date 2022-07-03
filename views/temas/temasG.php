@@ -77,7 +77,7 @@
   </div>
 </div>
 <!-- Modal Editar Prospecto-->
-<div class="modal fade" id="modalEditarProspecto" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modalEditarTema" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -94,9 +94,25 @@
           </div>
           <div class="col-12 mb-2">
             <div class="form-group">
+              <label for="prospectoEdit">Prospecto</label>
+              <select class="form-select border border-danger" id="prospectoEdit" name="prospectoEdit" disabled>
+                <option value="0">--- Seleccione Prospecto ---</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-12 mb-2">
+            <div class="form-group">
+              <label for="cursoEdit">Curso</label>
+              <select class="form-select border border-danger" id="cursoEdit" name="cursoEdit">
+                <option value="0">--- Seleccione Curso ---</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-12 mb-2">
+            <div class="form-group">
               <label for="nombre_edit">Nombre</label>
               <input type="text" class="form-control border border-danger" id="nombre_edit" name="nombre_edit">
-              <input type="hidden" id="idcurso" name="idcurso">
+              <input type="hidden" id="idtema" name="idtema">
             </div>
           </div>
         </div>
@@ -142,7 +158,7 @@
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <h6>¿Estas por habilitar a: <p class="d-inline fw-bolder" id="nombreTemaHabilitar"></p>?
+            <h6>¿Habilitar el tema de: <p class="d-inline fw-bolder" id="nombreTemaHabilitar"></p>?
             </h6>
             <input type="hidden" id="idTemaHabilitar">
           </div>

@@ -22,6 +22,8 @@ if (count($porciones) > 1) {
     $title = 'Cursos';
   } elseif ($porciones2[1] == 'temasGView') {
     $title = 'Temas por Curso';
+  } elseif ($porciones2[1] == 'preguntasGView') {
+    $title = 'Preguntas por Tema';
   }
 } else {
   $title = 'Inicio';
@@ -69,6 +71,7 @@ if (count($porciones) > 1) {
         <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="../controllers/PlanEstudioController.php?method=plan_estudioView">G. Planes de Estudio</a>
         <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="../controllers/CursosController.php?method=cursosGView">G. Cursos</a>
         <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="../controllers/TemasController.php?method=temasGView">G. Temas</a>
+        <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="../controllers/PreguntasController.php?method=preguntasGView">G. Preguntas</a>
       </div>
       <!--2-->
     </div>

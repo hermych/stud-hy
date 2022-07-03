@@ -231,7 +231,7 @@ function validarInputSoloNumeros(evt) {
   }
 }
 // ********** VALIDAR MODAL REGISTRAR **************
-$("#btnModalRegistrarTema").click(() => {
+$("#btnModalRegistrarPreg").click(() => {
   window.$.ajax({
     type: "GET",
     url: "UniversidadController.php?method=universidadGList",

@@ -1,18 +1,18 @@
 <?php
 session_start();
-require_once "../models/temas.php";
+require_once "../models/preguntas.php";
 //require_once "../helpers/utils.php";
 
-class TemasController
+class PreguntasController
 {
   /**Vistas */
   // Vistas de gestion
-  public function temasGView()
+  public function preguntasGView()
   {
-    require_once "../views/temas/temasG.php";
+    require_once "../views/preguntas/preguntasG.php";
   }
   /**Metodos */
-  public function temasGSave()
+  public function preguntasGSave()
   {
     // proceso de guardar datos
     if (isset($_POST)) {
@@ -21,12 +21,12 @@ class TemasController
       $curso = isset($_POST['curso']) ? $_POST['curso'] : false;
       $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : false;
       if ($nombre && $univ && $prosp && $curso) {
-        $facuObj = new Temas();
-        $registrar = $facuObj->temasGSave($nombre, $univ, $prosp, $curso);
+        $facuObj = new Preguntas();
+        $registrar = $facuObj->preguntasGSave($nombre, $univ, $prosp, $curso);
         if ($registrar == 1) {
           $respuesta = [
             'estado' => 'ok',
-            'mensaje' => 'Temas registrada correctamente'
+            'mensaje' => 'Preguntas registrada correctamente'
           ];
         } else {
           $respuesta = [
@@ -48,21 +48,21 @@ class TemasController
     }
     return json_encode($respuesta);
   }
-  public function temasGList()
+  public function preguntasGList()
   {
     $indice = 1;
     $respuesta = [];
-    $facuObj = new Temas();
-    $temases = $facuObj->temasGList();
-    if (count($temases) == 0) {
+    $facuObj = new Preguntas();
+    $preguntases = $facuObj->preguntasGList();
+    if (count($preguntases) == 0) {
       $respuesta = [
         'indice' => '-',
-        'id_temas' => '',
+        'id_preguntas' => '',
         'nombre' => 'No hay datos',
         'descripcion' => 'No hay datos',
       ];
     } else {
-      foreach ($temases as $key => $value) {
+      foreach ($preguntases as $key => $value) {
         $json['data'][$key] = $value;
       }
       for ($i = 0; $i < count($json['data']); $i++) {
@@ -73,7 +73,7 @@ class TemasController
     }
     return json_encode($respuesta);
   }
-  public function temasGEdit()
+  public function preguntasGEdit()
   {
     $respuesta = [];
     // proceso de guardar datos
@@ -84,8 +84,8 @@ class TemasController
       $idcurso = isset($_POST['curso']) ? $_POST['curso'] : false;
       $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : false;
       if ($idcurso && $nombre && $iduniv) {
-        $univObj = new Temas();
-        $registrar = $univObj->temasGEdit($idtema, $iduniv, $idpros, $idcurso, $nombre);
+        $univObj = new Preguntas();
+        $registrar = $univObj->preguntasGEdit($idtema, $iduniv, $idpros, $idcurso, $nombre);
         if ($registrar == 1) {
           $respuesta = [
             'estado' => 'ok',
@@ -111,14 +111,14 @@ class TemasController
     }
     return json_encode($respuesta);
   }
-  public function temasGInhabilitar()
+  public function preguntasGInhabilitar()
   {
     // proceso de guardar datos
     if (isset($_POST)) {
       $idtema = isset($_POST['idtema']) ? $_POST['idtema'] : false;
       if ($idtema) {
-        $univObj = new Temas();
-        $registrar = $univObj->temasGDelete($idtema);
+        $univObj = new Preguntas();
+        $registrar = $univObj->preguntasGDelete($idtema);
         if ($registrar) {
           $respuesta = [
             'estado' => 'ok',
@@ -144,18 +144,18 @@ class TemasController
     }
     return json_encode($respuesta);
   }
-  public function temasGHabilitar()
+  public function preguntasGHabilitar()
   {
     // proceso de guardar datos
     if (isset($_POST)) {
       $idtema = isset($_POST['idtema']) ? $_POST['idtema'] : false;
       if ($idtema) {
-        $univObj = new Temas();
-        $registrar = $univObj->temasGHabilitar($idtema);
+        $univObj = new Preguntas();
+        $registrar = $univObj->preguntasGHabilitar($idtema);
         if ($registrar == '1') {
           $respuesta = [
             'estado' => 'ok',
-            'mensaje' => 'Se habilito la temas correctamente'
+            'mensaje' => 'Se habilito la preguntas correctamente'
           ];
         } else {
           $respuesta = [
@@ -179,27 +179,27 @@ class TemasController
   }
 }
 
-$temas = new TemasController();
+$preguntas = new PreguntasController();
 
-if ($_GET['method'] == 'temasView') {
+if ($_GET['method'] == 'preguntasView') {
   // if (isset($_GET['id'])) {
   //   $id = $_GET['id'];
-  //   echo ($temas->facuEspecifico($id));
+  //   echo ($preguntas->facuEspecifico($id));
   // } else {
-  //   echo ($temas->temasView());
+  //   echo ($preguntas->preguntasView());
   // }
-} elseif ($_GET['method'] == 'temasGView') {
-  echo ($temas->temasGView());
-} elseif ($_GET['method'] == 'temasGList') {
-  echo ($temas->temasGList());
-} elseif ($_GET['method'] == 'temasGSave') {
-  echo ($temas->temasGSave());
-} elseif ($_GET['method'] == 'temasGEdit') {
-  echo ($temas->temasGEdit());
-} elseif ($_GET['method'] == 'temasGInhabilitar') {
-  echo ($temas->temasGInhabilitar());
-} elseif ($_GET['method'] == 'temasGHabilitar') {
-  echo ($temas->temasGHabilitar());
+} elseif ($_GET['method'] == 'preguntasGView') {
+  echo ($preguntas->preguntasGView());
+} elseif ($_GET['method'] == 'preguntasGList') {
+  echo ($preguntas->preguntasGList());
+} elseif ($_GET['method'] == 'preguntasGSave') {
+  echo ($preguntas->preguntasGSave());
+} elseif ($_GET['method'] == 'preguntasGEdit') {
+  echo ($preguntas->preguntasGEdit());
+} elseif ($_GET['method'] == 'preguntasGInhabilitar') {
+  echo ($preguntas->preguntasGInhabilitar());
+} elseif ($_GET['method'] == 'preguntasGHabilitar') {
+  echo ($preguntas->preguntasGHabilitar());
 }
 /* else {
   if ($_GET['method'] == 'login') {
