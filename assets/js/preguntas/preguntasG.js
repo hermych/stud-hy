@@ -581,9 +581,38 @@ $(document).ready(function () {
         let data = JSON.parse(response);
         if (data.estado == "ok") {
           dataTable.ajax.reload();
-          $("#nombre").val("");
           $("#univ").val("0");
-          $("#modalRegistrarTema").hide();
+          $("#prospecto").val("0");
+          $("#prospecto").prop("disabled", true);
+          $("#prospecto").removeClass("border border-success");
+          $("#prospecto").addClass("border border-danger");
+          $("#curso").val("0");
+          $("#curso").prop("disabled", true);
+          $("#curso").removeClass("border border-success");
+          $("#curso").addClass("border border-danger");
+          $("#tema").val("0");
+          $("#tema").prop("disabled", true);
+          $("#tema").removeClass("border border-success");
+          $("#tema").addClass("border border-danger");
+          $("#pregunta").val("");
+          $("#pregunta").removeClass("border border-success");
+          $("#pregunta").addClass("border border-danger");
+          $("#respuesta").val("");
+          $("#respuesta").removeClass("border border-success");
+          $("#respuesta").addClass("border border-danger");
+          $("#rptaf_1").val("");
+          $("#rptaf_1").removeClass("border border-success");
+          $("#rptaf_1").addClass("border border-danger");
+          $("#rptaf_2").val("");
+          $("#rptaf_2").removeClass("border border-success");
+          $("#rptaf_2").addClass("border border-danger");
+          $("#rptaf_3").val("");
+          $("#rptaf_3").removeClass("border border-success");
+          $("#rptaf_3").addClass("border border-danger");
+          $("#rptaf_4").val("");
+          $("#rptaf_4").removeClass("border border-success");
+          $("#rptaf_4").addClass("border border-danger");
+          $("#modalRegistrarPreg").hide();
           $(".modal-backdrop").remove();
           Swal.fire({
             text: data.mensaje,

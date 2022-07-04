@@ -43,6 +43,11 @@
             $script = '<script src="../assets/js/preguntas/preguntasG.js"></script>';
             echo $script;
         }
+        /********************************** ESTO ES DE MIRKO NO VA PARA TESIS ******************* */
+        elseif ($porciones2[1] == 'consultasGView') {
+            $script = '<script src="../assets/js/facturacion/consulta.js"></script>';
+            echo $script;
+        }
     }
     ?>
     </body>

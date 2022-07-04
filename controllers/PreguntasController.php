@@ -50,9 +50,10 @@ class PreguntasController
       $rptaf_2 = isset($_POST['rptaf_2']) ? $_POST['rptaf_2'] : false;
       $rptaf_3 = isset($_POST['rptaf_3']) ? $_POST['rptaf_3'] : false;
       $rptaf_4 = isset($_POST['rptaf_4']) ? $_POST['rptaf_4'] : false;
+      $imagen = isset($rename) ? $rename : '';
       if ($univ && $prosp && $curso && $tema && $pregunta && $respuesta && $rptaf_1 && $rptaf_2 && $rptaf_3 && $rptaf_4) {
         $pregObj = new Preguntas();
-        $registrar = $pregObj->preguntasGSave($univ, $prosp, $curso, $tema, $pregunta, $respuesta, $rptaf_1, $rptaf_2, $rptaf_3, $rptaf_4);
+        $registrar = $pregObj->preguntasGSave($univ, $prosp, $curso, $tema, $pregunta, $respuesta, $rptaf_1, $rptaf_2, $rptaf_3, $rptaf_4, $imagen);
         if ($registrar == 1) {
           $respuesta = [
             'estado' => 'ok',

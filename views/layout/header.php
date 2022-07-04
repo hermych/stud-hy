@@ -25,6 +25,10 @@ if (count($porciones) > 1) {
   } elseif ($porciones2[1] == 'preguntasGView') {
     $title = 'Preguntas por Tema';
   }
+  /*******************ESTO ES PARA MIRKO NO VA PARA TESIS*********************** */
+  elseif ($porciones2[1] == 'consultasGView') {
+    $title = 'CONSULTA DE RECIBOS';
+  }
 } else {
   $title = 'Inicio';
 }
@@ -72,6 +76,7 @@ if (count($porciones) > 1) {
         <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="../controllers/CursosController.php?method=cursosGView">G. Cursos</a>
         <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="../controllers/TemasController.php?method=temasGView">G. Temas</a>
         <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="../controllers/PreguntasController.php?method=preguntasGView">G. Preguntas</a>
+        <a class="list-group-item bg-dark list-group-item-action list-group-item p-3 text-light" href="../controllers/FacturacionController.php?method=consultasGView">G. MIRKO SEMPAI</a>
       </div>
       <!--2-->
     </div>

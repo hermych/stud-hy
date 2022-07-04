@@ -215,46 +215,112 @@ let español = {
     },
   },
 };
-function validarInputSoloNumeros(evt) {
-  let code = evt.which ? evt.which : evt.keyCode;
-  if (code == 8) {
-    // backspace.
-    return true;
-  } else if (code >= 48 && code <= 57) {
-    // is a number.
-    return true;
-  } else {
-    // other keys.
-    return false;
+// ********** VALIDAR MODAL REGISTRAR **************
+$("#btnBuscarRecibo").click(function () {
+  console.log("gola");
+});
+$("#nroRecibo").keyup(function () {
+  if ($("#nroRecibo").val().length == "8") {
+    let recibo = $("#nroRecibo").val();
+    formData = new FormData();
+    formData.append("recibo", $("#nroRecibo").val());
+    window.$.ajax({
+      type: "post",
+      url: `?method=consultasGList&recibo=${recibo}`,
+      data: formData,
+      cache: false,
+      processData: false,
+      contentType: false,
+      beforeSend: function () {
+        Swal.fire({
+          allowOutsideClick: false,
+          title: "Cargando",
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading();
+            const b = Swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {}, 300);
+          },
+        });
+      },
+      success: function (response) {
+        Swal.close();
+        let data = JSON.parse(response).data;
+        let contenido = "";
+        data.forEach((element) => {
+          contenido += `<tr>
+                          <th scope="row">${element.indice}</th>
+                          <td>${element.Numerorecibo}</td>
+                          <td>${element.Importe}</td>
+                          <td><span class="badge bg-primary">C1</span></td>
+                          <td><span class="badge bg-primary">SEDA</span></td>
+                          <td><span class="badge bg-primary">45301</span></td>
+                          <td><span class="badge bg-primary"></span></td>
+                          <td><span class="badge bg-primary">SEDA</span></td>
+                        </tr>`;
+        });
+        $("#tbody").html(contenido);
+      },
+    });
   }
-}
-
-$(document).ready(function () {
-  // Listar tabla con datos
-  let dataTable = $("#table").DataTable({
-    ajax: {
-      url: "?method=facturaList",
-      method: "GET",
-    },
-    columns: [
-      { data: "cuenta" },
-      { data: "Recibo" },
-      { data: "importe" },
-      { data: "electrificacionRural" },
-      
-   /*   {
-        data: "estado",
-        render: function (data, type, row) {
-          if (row.estado == "activo") {
-            return `<button type="button" class="editar btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarCurso"><i class="fas fa-edit"></i></button>
-          <button type="button" class="inhabilitar btn btn-danger btn-sm" data-toggle="modal" data-target="#modalInhabilitarCurso"><i class="fas fa-trash-alt"></i></button>`;
-          } else {
-            return `<button type="button" class="editar btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarCurso"><i class="fas fa-edit"></i></button>
-          <button type="button" class="habilitar btn btn-success btn-sm" data-toggle="modal" data-target="#modalHabilitarCurso"><i class="fas fa-check-circle"></i></button>`;
-          }
+});
+$("#btnRural").click(function () {
+  let recibo = $("#nroRecibo").val();
+  formData = new FormData();
+  formData.append("recibo", $("#nroRecibo").val());
+  window.$.ajax({
+    type: "post",
+    url: `?method=consultasGList&recibo=${recibo}`,
+    data: formData,
+    cache: false,
+    processData: false,
+    contentType: false,
+    beforeSend: function () {
+      Swal.fire({
+        allowOutsideClick: false,
+        title: "Cargando",
+        timerProgressBar: true,
+        didOpen: () => {
+          Swal.showLoading();
+          const b = Swal.getHtmlContainer().querySelector("b");
+          timerInterval = setInterval(() => {}, 300);
         },
-      },  
-      */
-    ], 
-    language: español,
+      });
+    },
+    success: function (response) {
+      Swal.close();
+      let data = JSON.parse(response).data[0];
+      console.log(data[0]);
+      let igv = Number(data.Importe) * 0.18;
+      let importe_new = data.Importe - igv;
+      let contenido = `<tr>
+                          <th scope="row">${data.indice}</th>
+                          <td>${data.Numerorecibo}</td>
+                          <td>${importe_new.toFixed(2)}</td>
+                          <td><span class="badge bg-primary">C1</span></td>
+                          <td><span class="badge bg-primary">SEDA</span></td>
+                          <td><span class="badge bg-primary">45301</span></td>
+                          <td><span class="badge bg-primary"></span></td>
+                          <td><span class="badge bg-primary">SEDA</span></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">${data.indice}</th>
+                          <td>${data.Numerorecibo}</td>
+                          <td>${(data.Importe * 0.18).toFixed(2)}</td>
+                          <td><span class="badge bg-primary">C0</span></td>
+                          <td><span class="badge bg-primary">SEDA</span></td>
+                          <td><span class="badge bg-primary">45301</span></td>
+                          <td><span class="badge bg-primary"></span></td>
+                          <td><span class="badge bg-primary">SEDA</span></td>
+                        </tr>`;
+      $("#tbody").html(contenido);
+    },
   });
+});
+$("#btnSubirExcelModal").click(function () {
+  $("#uploadExcelModal").modal("show");
+});
+$("#btnUpload").click(function () {
+  formData = new FormData();
+  
+});
