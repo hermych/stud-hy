@@ -16,6 +16,7 @@
           <th scope="col">#</th>
           <th scope="col">Prospecto</th>
           <th scope="col">Curso</th>
+          <th scope="col">Tema</th>
           <th scope="col">Pregunta</th>
           <th scope="col">Alternativas</th>
           <th scope="col">Opciones</th>
@@ -168,19 +169,19 @@
     </div>
   </div>
 </div>
-<!-- Modal Inhabilitar Prospecto -->
-<div class="modal fade" id="modalInhabilitarTema" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- Modal Inhabilitar Pregunta -->
+<div class="modal fade" id="modalInhabilitarPreg" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Inhabilitar Tema</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Inhabilitar Pregunta</h5>
       </div>
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <h6>¿Estas por inhabilitar a: <p class="d-inline fw-bolder" id="nombreTemaInhabilitar"></p>?
+            <h6>¿Estas por inhabilitar: ¿<p class="d-inline fw-bolder" id="nombrePregInhabilitar"></p>?
             </h6>
-            <input type="hidden" id="idTemaInhabilitar">
+            <input type="hidden" id="idPregInhabilitar">
           </div>
         </form>
         <p></p>
@@ -192,8 +193,8 @@
     </div>
   </div>
 </div>
-<!-- Modal habilitad Prospecto -->
-<div class="modal fade" id="modalHabilitarTema" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- Modal habilitad Pregunta -->
+<div class="modal fade" id="modalHabilitarPreg" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -202,9 +203,9 @@
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <h6>¿Habilitar el tema de: <p class="d-inline fw-bolder" id="nombreTemaHabilitar"></p>?
+            <h6>¿Habilitar el tema de: <p class="d-inline fw-bolder" id="nombrePregHabilitar"></p>?
             </h6>
-            <input type="hidden" id="idTemaHabilitar">
+            <input type="hidden" id="idPregHabilitar">
           </div>
         </form>
         <p></p>
@@ -212,6 +213,24 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
         <button type="button" id="btnHabilitar" class="btn btn-success">Confirmar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal para ver las respuestas -->
+<div class="modal fade" id="modalRespuestas" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Alternativas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div id="body_alternativas" class="modal-body">
+        <p>1. pregunta asdasd</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>

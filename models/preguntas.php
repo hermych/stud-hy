@@ -42,10 +42,10 @@ class Preguntas
   }
   public function preguntasGList()
   {
-    $sql_facu = "SELECT t.*, u.nombre as 'universidad', p.nombre as 'prospecto', c.nombre as 'curso' FROM preguntas as t, universidades as u, prospectos as p, preguntas as c WHERE t.id_univ = u.id_universidad AND t.id_prosp = p.id_prospecto AND t.id_curso = c.id_curso;";
-    $listarFacus = $this->db->query($sql_facu);
-    $facultades = $listarFacus->fetch_all(MYSQLI_ASSOC);
-    return $facultades;
+    $sql_preg = "SELECT pr.nombre as 'prospecto', c.nombre as 'curso', t.nombre as 'tema', pg.* FROM `preguntas` as pg, prospectos as pr, cursos as c, temas as t WHERE pg.id_prosp = pr.id_prospecto AND pg.id_curso = c.id_curso AND pg.id_tema = t.id_tema;";
+    $listarPreguntas = $this->db->query($sql_preg);
+    $preguntas = $listarPreguntas->fetch_all(MYSQLI_ASSOC);
+    return $preguntas;
   }
   public function preguntasGEdit($idtema, $iduniv, $idpros, $idcurso, $nombre)
   {
@@ -53,26 +53,33 @@ class Preguntas
     $editar = $this->db->query($sql_edit);
     return $editar;
   }
-  public function preguntasGDelete($idtema)
+  public function preguntasGDelete($idpreg)
   {
     /* Verificar si la facultad pertenece a algun registro */
     $respuesta = false;
-    $consulta = "UPDATE `preguntas` SET `estado` = 'inactivo' WHERE id_tema = $idtema;";
+    $consulta = "UPDATE `preguntas` SET `estado` = 'inactivo' WHERE id_pregunta = $idpreg;";
     $query = $this->db->query($consulta);
     if ($query) {
       $respuesta = true;
     }
     return $respuesta;
   }
-  public function preguntasGHabilitar($idtema)
+  public function preguntasGHabilitar($idpreg)
   {
     $respuesta = false;
-    $sql_buscar = "UPDATE `preguntas` SET `estado` = 'activo' WHERE id_tema = $idtema;";
+    $sql_buscar = "UPDATE `preguntas` SET `estado` = 'activo' WHERE id_pregunta = $idpreg;";
     $query = $this->db->query($sql_buscar);
     if ($query) {
       $respuesta = true;
     }
     return $respuesta;
+  }
+  public function respuestasGList($idpreg)
+  {
+    $sql_rpta = "SELECT * FROM `respuestas` WHERE id_preg = '$idpreg';";
+    $listar_alternativas = $this->db->query($sql_rpta);
+    $alternativas = $listar_alternativas->fetch_all(MYSQLI_ASSOC);
+    return $alternativas;
   }
   /*
   public function preguntasGListEspecifico($iduniv)

@@ -83,9 +83,9 @@ class PreguntasController
   {
     $indice = 1;
     $respuesta = [];
-    $facuObj = new Preguntas();
-    $preguntases = $facuObj->preguntasGList();
-    if (count($preguntases) == 0) {
+    $pregObj = new Preguntas();
+    $preguntas = $pregObj->preguntasGList();
+    if (count($preguntas) == 0) {
       $respuesta = [
         'indice' => '-',
         'id_preguntas' => '',
@@ -93,7 +93,7 @@ class PreguntasController
         'descripcion' => 'No hay datos',
       ];
     } else {
-      foreach ($preguntases as $key => $value) {
+      foreach ($preguntas as $key => $value) {
         $json['data'][$key] = $value;
       }
       for ($i = 0; $i < count($json['data']); $i++) {
@@ -146,10 +146,10 @@ class PreguntasController
   {
     // proceso de guardar datos
     if (isset($_POST)) {
-      $idtema = isset($_POST['idtema']) ? $_POST['idtema'] : false;
-      if ($idtema) {
+      $idpreg = isset($_POST['idpreg']) ? $_POST['idpreg'] : false;
+      if ($idpreg) {
         $univObj = new Preguntas();
-        $registrar = $univObj->preguntasGDelete($idtema);
+        $registrar = $univObj->preguntasGDelete($idpreg);
         if ($registrar) {
           $respuesta = [
             'estado' => 'ok',
@@ -179,10 +179,10 @@ class PreguntasController
   {
     // proceso de guardar datos
     if (isset($_POST)) {
-      $idtema = isset($_POST['idtema']) ? $_POST['idtema'] : false;
-      if ($idtema) {
+      $idpreg = isset($_POST['idpreg']) ? $_POST['idpreg'] : false;
+      if ($idpreg) {
         $univObj = new Preguntas();
-        $registrar = $univObj->preguntasGHabilitar($idtema);
+        $registrar = $univObj->preguntasGHabilitar($idpreg);
         if ($registrar == '1') {
           $respuesta = [
             'estado' => 'ok',
@@ -204,6 +204,39 @@ class PreguntasController
       $respuesta = [
         'estado' => 'failed',
         'mensaje' => 'Error al enviar los datos al servidor'
+      ];
+    }
+    return json_encode($respuesta);
+  }
+  public function respuestasGList()
+  {
+    $respuesta = [];
+    if (isset($_POST)) {
+      $idpreg = isset($_POST['idpreg']) ? $_POST['idpreg'] : false;
+      if ($idpreg) {
+        $univObj = new Preguntas();
+        $alternativas = $univObj->respuestasGList($idpreg);
+        if (count($alternativas) == 0) {
+          $respuesta = [
+            'id_respuesta' => '0',
+            'id_preg' => '0',
+            'respuesta' => 'No hay datos',
+            'valor' => 'No hay datos',
+            'estado' => '-',
+          ];
+        } else {
+          $respuesta = $alternativas;
+        }
+      } else {
+        $respuesta = [
+          'estado' => 'failed',
+          'mensaje' => 'No se esta recibiendo los parametros necesarios. Comuniquese con @HermYch'
+        ];
+      }
+    } else {
+      $respuesta = [
+        'estado' => 'failed',
+        'mensaje' => 'Error de comunicacion con el servidor. Comuniquese con @HermYch'
       ];
     }
     return json_encode($respuesta);
@@ -231,6 +264,8 @@ if ($_GET['method'] == 'preguntasView') {
   echo ($preguntas->preguntasGInhabilitar());
 } elseif ($_GET['method'] == 'preguntasGHabilitar') {
   echo ($preguntas->preguntasGHabilitar());
+} elseif ($_GET['method'] == 'respuestasGList') {
+  echo ($preguntas->respuestasGList());
 }
 /* else {
   if ($_GET['method'] == 'login') {

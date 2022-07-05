@@ -519,24 +519,43 @@ $(document).ready(function () {
   // Listar tabla con datos
   let dataTable = $("#table").DataTable({
     ajax: {
-      url: "?method=temasGList",
+      url: "?method=preguntasGList",
       method: "GET",
     },
     columns: [
       { data: "indice" },
-      { data: "universidad" },
       { data: "prospecto" },
       { data: "curso" },
-      { data: "nombre" },
+      { data: "tema" },
+      { data: "descripcion" },
+      {
+        defaultContent: `<button type="button" class="alternativas btn btn-info" data-bs-toggle="modal" data-bs-target="#modalRespuestas"><i class="fas fa-info-circle"></i></button>`,
+      },
       {
         data: "estado",
         render: function (data, type, row) {
           if (row.estado == "activo") {
-            return `<button type="button" class="editar btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarTema"><i class="fas fa-edit"></i></button>
-          <button type="button" class="inhabilitar btn btn-danger btn-sm" data-toggle="modal" data-target="#modalInhabilitarTema"><i class="fas fa-trash-alt"></i></button>`;
+            // <button
+            //   type="button"
+            //   class="editar btn btn-warning btn-sm"
+            //   data-toggle="modal"
+            //   data-target="#modalEditarTema"
+            // >
+            //   <i class="fas fa-edit"></i>
+            // </button>;
+            return `
+          <button type="button" class="inhabilitar btn btn-danger btn-sm" data-toggle="modal" data-target="#modalInhabilitarPreg"><i class="fas fa-trash-alt"></i></button>`;
           } else {
-            return `<button type="button" class="editar btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditarTema"><i class="fas fa-edit"></i></button>
-          <button type="button" class="habilitar btn btn-success btn-sm" data-toggle="modal" data-target="#modalHabilitarTema"><i class="fas fa-check-circle"></i></button>`;
+            // <button
+            //   type="button"
+            //   class="editar btn btn-warning btn-sm"
+            //   data-toggle="modal"
+            //   data-target="#modalEditarTema"
+            // >
+            //   <i class="fas fa-edit"></i>
+            // </button>;
+            return `
+          <button type="button" class="habilitar btn btn-success btn-sm" data-toggle="modal" data-target="#modalHabilitarPreg"><i class="fas fa-check-circle"></i></button>`;
           }
         },
       },
@@ -774,16 +793,16 @@ $(document).ready(function () {
   // Modal Inhabilitar Tema con datos correspondientes
   $("#table tbody").on("click", ".inhabilitar", function () {
     let data = dataTable.row($(this).parents()).data();
-    $("#nombreTemaInhabilitar").text(data.nombre);
-    $("#idTemaInhabilitar").val(data.id_tema);
+    $("#nombrePregInhabilitar").text(data.descripcion);
+    $("#idPregInhabilitar").val(data.id_pregunta);
   });
   // Proceso de inhabilitar Tema
   $("#btnInhabilitar").click(function (e) {
     let formData = new FormData();
-    formData.append("idtema", $("#idTemaInhabilitar").val());
+    formData.append("idpreg", $("#idPregInhabilitar").val());
     window.$.ajax({
       type: "post",
-      url: "?method=temasGInhabilitar",
+      url: "?method=preguntasGInhabilitar",
       data: formData,
       cache: false,
       processData: false,
@@ -805,7 +824,7 @@ $(document).ready(function () {
         let data = JSON.parse(response);
         if (data.estado == "ok") {
           dataTable.ajax.reload();
-          $("#modalInhabilitarTema").hide();
+          $("#modalInhabilitarPreg").hide();
           $(".modal-backdrop").remove();
           Swal.fire({
             text: data.mensaje,
@@ -815,7 +834,7 @@ $(document).ready(function () {
             Swal.close();
           }, 2000);
         } else {
-          $("#modalInhabilitarTema").hide();
+          $("#modalInhabilitarPreg").hide();
           $(".modal-backdrop").remove();
           Swal.fire({
             text: data.mensaje,
@@ -831,16 +850,16 @@ $(document).ready(function () {
   // Modal habilitar Tema con datos correspondientes
   $("#table tbody").on("click", ".habilitar", function () {
     let data = dataTable.row($(this).parents()).data();
-    $("#nombreTemaHabilitar").text(data.nombre);
-    $("#idTemaHabilitar").val(data.id_tema);
+    $("#nombrePregHabilitar").text(data.descripcion);
+    $("#idPregHabilitar").val(data.id_pregunta);
   });
   // Proceso de inhabilitar Tema
   $("#btnHabilitar").click(function (e) {
     let formData = new FormData();
-    formData.append("idtema", $("#idTemaHabilitar").val());
+    formData.append("idpreg", $("#idPregHabilitar").val());
     window.$.ajax({
       type: "post",
-      url: "?method=temasGHabilitar",
+      url: "?method=preguntasGHabilitar",
       data: formData,
       cache: false,
       processData: false,
@@ -862,7 +881,7 @@ $(document).ready(function () {
         let data = JSON.parse(response);
         if (data.estado == "ok") {
           dataTable.ajax.reload();
-          $("#modalHabilitarTema").hide();
+          $("#modalHabilitarPreg").hide();
           $(".modal-backdrop").remove();
           Swal.fire({
             text: data.mensaje,
@@ -872,7 +891,7 @@ $(document).ready(function () {
             Swal.close();
           }, 2000);
         } else {
-          $("#modalHabilitarTema").hide();
+          $("#modalHabilitarPreg").hide();
           $(".modal-backdrop").remove();
           Swal.fire({
             text: data.mensaje,
@@ -882,6 +901,43 @@ $(document).ready(function () {
             Swal.close();
           }, 2000);
         }
+      },
+    });
+  });
+  // Modal mostrar alternativas
+  $("#table tbody").on("click", ".alternativas", function () {
+    let data = dataTable.row($(this).parents()).data();
+    let formData = new FormData();
+    formData.append("idpreg", data.id_pregunta);
+    window.$.ajax({
+      type: "post",
+      url: "?method=respuestasGList",
+      data: formData,
+      cache: false,
+      processData: false,
+      contentType: false,
+      beforeSend: function () {
+        Swal.fire({
+          allowOutsideClick: false,
+          title: "Cargando",
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading();
+            const b = Swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {}, 300);
+          },
+        });
+      },
+      success: function (response) {
+        Swal.close();
+        let data = JSON.parse(response);
+        let contenido = "";
+        let i = 1;
+        data.forEach((alternativa) => {
+          contenido += `<p>${i}. ${alternativa.respuesta} - ${alternativa.valor}</p>`;
+          i += 1;
+        });
+        $("#body_alternativas").html(contenido);
       },
     });
   });
